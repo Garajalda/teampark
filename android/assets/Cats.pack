@@ -1,0 +1,33 @@
+
+Cats.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+cat_BLACK-32x48
+  rotate: false
+  xy: 1, 1
+  size: 96, 192
+  orig: 96, 192
+  offset: 0, 0
+  index: -1
+cat_BROWN-32x48
+  rotate: false
+  xy: 99, 1
+  size: 96, 192
+  orig: 96, 192
+  offset: 0, 0
+  index: -1
+cat_ORANGE-32x48
+  rotate: false
+  xy: 197, 1
+  size: 96, 192
+  orig: 96, 192
+  offset: 0, 0
+  index: -1
+cat_WHITE-32x32
+  rotate: false
+  xy: 295, 65
+  size: 96, 128
+  orig: 96, 128
+  offset: 0, 0
+  index: -1

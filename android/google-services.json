@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "339956855974",
+    "firebase_url": "https://multiplayerteampark-default-rtdb.firebaseio.com",
+    "project_id": "multiplayerteampark",
+    "storage_bucket": "multiplayerteampark.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:339956855974:android:e196b15bf4810286187067",
+        "android_client_info": {
+          "package_name": "com.teampark"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "339956855974-i442i1gqdma4psuitbfh4rj98cqs5sgr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBKuLSw6ElZXrbt8m4Qxyx0PoleprmuXeo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "339956855974-i442i1gqdma4psuitbfh4rj98cqs5sgr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
