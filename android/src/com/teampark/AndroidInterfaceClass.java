@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.SnapshotArray;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -42,6 +43,7 @@ public class AndroidInterfaceClass implements FireBaseInterface {
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void transacction(Cat.TypeCat tipo, float x, float y) {
         Instant now = Instant.now();
+        System.out.println("entra");
         if (lastUpdate != null) {
             if (Duration.between(lastUpdate, now).getSeconds() >= 1) {
                 myref.runTransaction(new Transaction.Handler() {
@@ -85,6 +87,7 @@ public class AndroidInterfaceClass implements FireBaseInterface {
     @Override
     public void updateDatos(Cat.TypeCat tipo, float x, float y) {
         Map<String, Object> hopperUpdates = new HashMap<>();
+        hopperUpdates.put(tipo.ordinal()+ "/ID", tipo.ordinal());
         hopperUpdates.put(tipo.ordinal() + "/Y", x);
         hopperUpdates.put(tipo.ordinal() + "/X", y);
 
@@ -101,8 +104,11 @@ public class AndroidInterfaceClass implements FireBaseInterface {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                ArrayList<HashMap<String, Object>> roomData = (ArrayList<HashMap<String, Object>>) snapshot.getValue();
+                for ( DataSnapshot d: snapshot.getChildren()) {
+                    System.out.println(d.child("ID").getValue(Integer.class));
+                    codRecogidoBD.put(d.child("ID").getValue(Integer.class), new Vector2(d.child("X").getValue(Float.class),d.child("Y").getValue(Float.class)));
+                }
+                /*ArrayList<HashMap<String, Object>> roomData = (ArrayList<HashMap<String, Object>>) snapshot.getValue();
                 if (roomData != null) {
                     roomData.forEach(cat -> {
                         Long id = (Long) cat.get("ID");
@@ -114,7 +120,7 @@ public class AndroidInterfaceClass implements FireBaseInterface {
 
 
                     });
-                }
+                }*/
 
 
             }

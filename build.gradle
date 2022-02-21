@@ -11,7 +11,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:7.1.0'
         classpath 'com.google.gms:google-services:4.3.10'
-
+        classpath 'io.socket:socket.io-client:2.0.1'
     }
 }
 
@@ -45,11 +45,17 @@ project(":desktop") {
 
     dependencies {
         implementation project(":core")
+        implementation ('io.socket:socket.io-client:2.0.1') {
+            // excluding org.json which is provided by Android
+            exclude group: 'org.json', module: 'json'
+        }
         api "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
         api "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
         api "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
         api "com.badlogicgames.gdx:gdx-tools:$gdxVersion"
+
+
         
     }
 }
@@ -90,6 +96,6 @@ project(":core") {
         api "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-ai:$aiVersion"
-        
+        api "io.socket:socket.io-client:2.0.1"
     }
 }

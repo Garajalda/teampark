@@ -44,10 +44,11 @@ public class Cat extends Sprite {
     public TypeCat getTipo(){
         return tipo;
     }
-
+    Vector2 previousPosition;
     public Cat(JuegoScreen screen,TypeCat tipoGato,float x, float y){
         super(screen.getTextureAtlas().findRegion("cat_"+tipoGato.name()+"-32x48"));
         this.world = screen.getWorld();
+        previousPosition = new Vector2(getX(),getY());
         estadoActual = State.PARA;
         estadoAnterior = State.PARA;
         stateTimer = 0;
@@ -62,6 +63,14 @@ public class Cat extends Sprite {
         this.frames = new Array<>();
         getTipoGato();
 
+    }
+    public boolean hasMoved(){
+        if(previousPosition.x != getX() || previousPosition.y != getY()){
+            previousPosition.x = getX();
+            previousPosition.y = getY();
+            return true;
+        }
+        return false;
     }
 
     public void update(float dt){

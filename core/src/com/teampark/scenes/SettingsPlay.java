@@ -65,6 +65,7 @@ public class SettingsPlay implements Disposable {
         stage.addActor(table1);
 
 
+
         text2.addListener(new InputListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {

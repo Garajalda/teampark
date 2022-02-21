@@ -3,11 +3,11 @@ package com.teampark;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.audio.*;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.teampark.Sprites.cats.Cat;
 import com.teampark.screens.GameStart;
-import com.teampark.screens.JuegoScreen;
+
+import io.socket.client.Socket;
 
 public class MainGame extends Game{
 
@@ -31,6 +31,8 @@ public class MainGame extends Game{
 	public static AssetManager managerSongs;
 
 
+	public static final String EVENT_CONNECT = "connect";
+	public static final String EVENT_DISCONNECT = "disconnect";
 	public MainGame(){
 
 	}
@@ -39,6 +41,7 @@ public class MainGame extends Game{
 		this.fbic = fbic;
 	}
 
+
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
@@ -46,10 +49,12 @@ public class MainGame extends Game{
 		//managerSongs.load("audio/sounds/click.wav", Sound.class);
 		managerSongs.load("audio/music/aeon.ogg", Music.class);
 		managerSongs.finishLoading();
-		//setScreen(new JuegoScreen(this));
+
 		setScreen(new GameStart(this));
 
 	}
+
+
 
 	@Override
 	public void dispose() {

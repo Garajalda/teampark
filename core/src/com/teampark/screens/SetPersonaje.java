@@ -122,12 +122,6 @@ public class SetPersonaje implements Screen{
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 pressStartGameButton = false;
-               // MainGame.FBIC.someFunction();
-
-                //MainGame.FBIC.firstBaseTest();
-                //MainGame.FBIC.setOnValueChangedListener();
-                //MainGame.FBIC.setValueInDb("message","this new Text");
-                //MainGame.FBIC.setValueInDb("message2", "otro gato");
             }
 
             @Override
@@ -195,11 +189,14 @@ public class SetPersonaje implements Screen{
         stage.act();
         stage.draw();
         if(getPressStartGameButton()){
+
             game.setScreen(new JuegoScreen(game, gatoElegido));
             dispose();
         }
 
     }
+
+
 
     @Override
     public void resize(int width, int height) {
