@@ -136,12 +136,12 @@ public class JuegoScreen implements Screen{
 
             boolean salta = false;
             boolean camina = false;
-            final int fastAreaMin = Gdx.graphics.getWidth() / 2;
+            final float fastAreaMin = Gdx.graphics.getWidth() / 2;
 
 
             for (int j = 0; j < 2; j++) {
                 if (Gdx.input.isTouched(j)) {
-                    final int iX = Gdx.input.getX(j);
+                    final float iX = Gdx.input.getX(j);
                     camina = camina || (iX < fastAreaMin);
                     salta = salta || (iX > fastAreaMin);
                 }
@@ -151,20 +151,23 @@ public class JuegoScreen implements Screen{
             if (!cat.isDead() && !settings.tableVisible) {
 
                 if (camina) {
-                    if (controlTouch.isTouched()) {
+
 
                         if (cat.b2body.getLinearVelocity().x >= -0.8f && cat.b2body.getLinearVelocity().x <= 0.8f) {
                             cat.b2body.applyLinearImpulse(new Vector2(controlTouch.getKnobPercentX() * 0.05f, 0), cat.b2body.getWorldCenter(), true);
                             //game.fbic.writeCat(gato.ordinal(), cats.get(gato.ordinal()).b2body.getLinearVelocity().x, cats.get(gato.ordinal()).b2body.getLinearVelocity().x);
 
                         }
-                    }
                 }
                 if (salta && !settings.isPressedSettings()) {
-                    if (Gdx.input.justTouched()) {
-                        if (!WorldContactListener.catNotTouch && cat.b2body.getLinearVelocity().y== 0 || WorldContactListener.catTouchAscensor)
+
+                    if(Gdx.input.justTouched()){
+                        if ((!WorldContactListener.catNotTouch || cat.b2body.getLinearVelocity().y== 0)){
                             cat.b2body.applyLinearImpulse(new Vector2(0, 2.5f), cat.b2body.getWorldCenter(), true);
+                        }
                     }
+
+
                 }
                 //mover personaje PC pruebas
                 if (Gdx.input.isKeyJustPressed(Input.Keys.UP))

@@ -17,7 +17,7 @@ public class WorldContactListener implements ContactListener {
 
     @Override
     public void beginContact(Contact contact) {
-        catNotTouch = false;
+
         Fixture fixA = contact.getFixtureA();
         Fixture fixB = contact.getFixtureB();
 
@@ -27,7 +27,7 @@ public class WorldContactListener implements ContactListener {
             Fixture object = foot==fixA ? fixB : fixA;
 
             if (object.getUserData() != null && ObjetosTileInteractivos.class.isAssignableFrom(object.getUserData().getClass())){
-
+                catNotTouch = false;
                 ((ObjetosTileInteractivos)object.getUserData()).onFootHit();
             }
         }
@@ -61,12 +61,11 @@ public class WorldContactListener implements ContactListener {
             case MainGame.ASCENSOR_BIT | MainGame.CAT_BIT:
                 if(fixA.getFilterData().categoryBits== MainGame.CAT_BIT) {
                     catTouchAscensor = true;
-                    catNotTouch = false;
                     System.out.println("toca ascensor");
                 }
             case MainGame.GROUND_BIT | MainGame.CAT_BIT:
                 if(fixA.getFilterData().categoryBits== MainGame.CAT_BIT) {
-                    catNotTouch = false;
+
                     //System.out.println("toca suelo");
                 }
 
