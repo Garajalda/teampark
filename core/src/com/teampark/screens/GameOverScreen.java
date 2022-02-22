@@ -1,6 +1,5 @@
 package com.teampark.screens;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
@@ -14,19 +13,24 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.teampark.MainGame;
-import com.teampark.Sprites.Boton;
 import com.teampark.Sprites.cats.Cat;
 
 
+/**
+ * Clase que define la pantalla cuando pierde el personaje
+ * @see Screen
+ */
 public class GameOverScreen implements Screen {
     private Viewport viewport;
     private Stage stage;
 
     private MainGame game;
     Cat.TypeCat gato;
-    public GameOverScreen(MainGame game, Cat.TypeCat gato){
+    String level;
+    public GameOverScreen(String level,MainGame game, Cat.TypeCat gato){
         this.game = game;
         this.gato = gato;
+        this.level =level;
         viewport = new FitViewport((float) MainGame.VIEW_WIDTH,MainGame.VIEW_HEIGHT);
         stage = new Stage(viewport, ((MainGame)game).batch);
         Label.LabelStyle font = new Label.LabelStyle(new BitmapFont(), Color.WHITE);
@@ -51,6 +55,10 @@ public class GameOverScreen implements Screen {
 
     }
 
+    /**
+     * Método que renderiza la pantalla del GameOver, en el se puede volver a la pantalla del JuegoScreen.
+     * @param delta
+     */
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0,0,1,1);
@@ -58,8 +66,15 @@ public class GameOverScreen implements Screen {
         stage.draw();
         if(Gdx.input.justTouched()){
 
-            System.out.println("hola");
-            game.setScreen(new JuegoScreen((MainGame) game,gato));
+            if(level.equals("1-1")){
+
+                game.setScreen(new Level1(level,game, gato));
+
+
+            }
+            if(level.equals("1-2")){
+                game.setScreen(new Level2(level,game,gato));
+            }
             dispose();
         }
     }

@@ -10,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.teampark.MainGame;
 import com.teampark.Sprites.Boton;
+import com.teampark.Sprites.Puerta;
 import com.teampark.screens.JuegoScreen;
 
 public class CreadorDeMundo {
@@ -42,5 +43,13 @@ public class CreadorDeMundo {
             new Boton(screen,rectangle);
         }
 
+        //obtengo objeto puerta
+        for (RectangleMapObject object : map.getLayers().get(3).getObjects().getByType(RectangleMapObject.class)){
+            Rectangle rectangle = object.getRectangle();
+            new Puerta(screen,rectangle);
+        }
+
     }
+
+
 }

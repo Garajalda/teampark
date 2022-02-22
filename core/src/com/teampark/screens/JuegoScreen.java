@@ -1,13 +1,13 @@
 package com.teampark.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -21,36 +21,41 @@ import com.teampark.items.Key;
 import com.teampark.scenes.Controllers;
 import com.teampark.scenes.InfoScreen;
 import com.teampark.scenes.SettingsPlay;
-import com.teampark.tools.CreadorDeMundo;
 import com.teampark.tools.WorldContactListener;
 
 
+/**
+ * Clase que define la pantalla del juego, carga los mapas, los personajes, los niveles...
+ * @see Screen
+ */
 public class JuegoScreen implements Screen{
 
-    private final float UPDATE_TIME = 1/60f;
-    float timer;
-    private final MainGame game;
-    private final InfoScreen info;
-    private final OrthographicCamera gameCamera;
-    private final Viewport gamePort;
-    private final TiledMap map;
-    private final OrthogonalTiledMapRenderer renderer;
-    private final Controllers controlTouch;
-    private World world;
-    private final Box2DDebugRenderer b2dr;
-    private Cat cat;
-
-    private final TextureAtlas textureAtlas;
-    private final Ascensor ascensor;
-    private final Key key;
-    private final SettingsPlay settings;
+    protected final MainGame game;
+    protected final InfoScreen info;
+    protected final OrthographicCamera gameCamera;
+    protected final Viewport gamePort;
+    protected TiledMap map;
+    protected OrthogonalTiledMapRenderer renderer;
+    protected final Controllers controlTouch;
+    protected World world;
+    protected Box2DDebugRenderer b2dr;
+    protected Cat cat;
+    protected final TextureAtlas textureAtlas;
+    protected Ascensor ascensor;
+    protected Key key;
+    protected SettingsPlay settings;
     Cat.TypeCat gato;
+    String level;
 
-
-    public JuegoScreen(MainGame game, Cat.TypeCat gato) {
+    /**
+     * Constructor que define el mapa, los elementos de la ventana.
+     * @param game
+     * @param gato
+     */
+    public JuegoScreen(String level, MainGame game, Cat.TypeCat gato) {
         textureAtlas = new TextureAtlas("Cats.pack");
         world = new World(new Vector2(0, -9.8f), true);
-
+        this.level = level;
 
 
         this.game = game;
@@ -60,48 +65,34 @@ public class JuegoScreen implements Screen{
         gamePort = new FitViewport((float) MainGame.VIEW_WIDTH / MainGame.PPM, (float) MainGame.VIEW_HEIGHT / MainGame.PPM, gameCamera);
 
         //info
-        info = new InfoScreen(game.batch, "1-1");
+        info = new InfoScreen(game.batch, level);
         controlTouch = new Controllers(game.batch);
-        settings = new SettingsPlay(game.batch);
+        settings = new SettingsPlay(this,level,game,game.batch,gato);
 
-        //cargando mapa
-        TmxMapLoader mapLoader = new TmxMapLoader();
-        map = mapLoader.load("lvl1.tmx");
 
-        //unidades de escala
-        renderer = new OrthogonalTiledMapRenderer(map, (float) 1 / MainGame.PPM);
-        //posicion de camara con relacion y aspecto del mundo
-        gameCamera.position.set(gamePort.getWorldWidth() / 2, gamePort.getWorldHeight() / 2, 0);
-
-        //debug
-        b2dr = new Box2DDebugRenderer();
-        //creando los objetos del mundo
-        new CreadorDeMundo(this);
-
-        //ascensor
-        ascensor = new Ascensor(this,9.8f, (float) 100 / MainGame.PPM);
-        ascensor.body.setActive(false);
-
-        //crear key
-        key = new Key(this,9.3f, (float) 160 / MainGame.PPM);
         //tipo contacto
         world.setContactListener(new WorldContactListener());
         Music music = MainGame.managerSongs.get("audio/music/aeon.ogg", Music.class);
         music.setLooping(true);
 
-        cat = new Cat(this, gato,50,40);
 
-
-   //music.play();
-
+        //music.play();
 
     }
 
 
+    /**
+     * Método que define si el protagonista ha muerto.
+     * @return devuelve un booleano sobre el estado del gato.
+     */
     public boolean gameOver() {
         return cat.estadoActual == Cat.State.DEAD && cat.getStateTimer() > 1;
     }
 
+    /**
+     * Método qye devuelve las texturas que cargan al personaje.
+     * @return devuelve el textureAtlas del gato.
+     */
     //Obtengo las texturas
     public TextureAtlas getTextureAtlas() {
         return textureAtlas;
@@ -113,6 +104,10 @@ public class JuegoScreen implements Screen{
     }
 
 
+    /**
+     * Método que define la actualización y movimiento de los diferentes componentes dentro de la pantalla.
+     * @param dt
+     */
     //movimiento
     public void update(float dt) {
 
@@ -120,41 +115,40 @@ public class JuegoScreen implements Screen{
 
         world.step(1f / 60f, 6, 2);
 
-        ascensor.update(dt);
-        //creando catBlack
 
-        key.update(dt,cat);
-        cat.update(dt);
         if (cat.estadoActual != Cat.State.DEAD) {
             gameCamera.position.x = cat.b2body.getPosition().x;
         }
 
         gameCamera.update();
         renderer.setView(gameCamera);
+
+
     }
 
 
+    /**
+     * Método que define los eventos de movimiento del personaje.
+     * @param dt
+     */
     //eventos de teclado para el personaje
-    private void handleInput(float dt) {
+    protected void handleInput(float dt) {
 
-
-            Gdx.input.setInputProcessor(MainGame.multiplexer);
             boolean salta = false;
             boolean camina = false;
             final int fastAreaMin = Gdx.graphics.getWidth() / 2;
 
 
-            for (int j = 0; j < 20; j++) {
+            for (int j = 0; j < 2; j++) {
                 if (Gdx.input.isTouched(j)) {
                     final int iX = Gdx.input.getX(j);
                     camina = camina || (iX < fastAreaMin);
                     salta = salta || (iX > fastAreaMin);
                 }
             }
-            MainGame.multiplexer.addProcessor(settings.stage);
 
 
-            if (!cat.isDead()) {
+            if (!cat.isDead() && !settings.tableVisible) {
 
                 if (camina) {
                     if (controlTouch.isTouched()) {
@@ -168,12 +162,12 @@ public class JuegoScreen implements Screen{
                 }
                 if (salta && !settings.isPressedSettings()) {
                     if (Gdx.input.justTouched()) {
-                        if (!WorldContactListener.catNotTouch || cat.b2body.getLinearVelocity().y== 0)
+                        if (!WorldContactListener.catNotTouch && cat.b2body.getLinearVelocity().y== 0 || WorldContactListener.catTouchAscensor)
                             cat.b2body.applyLinearImpulse(new Vector2(0, 2.5f), cat.b2body.getWorldCenter(), true);
                     }
                 }
                 //mover personaje PC pruebas
-                /*if (Gdx.input.isKeyJustPressed(Input.Keys.UP))
+                if (Gdx.input.isKeyJustPressed(Input.Keys.UP))
                     cat.b2body.applyLinearImpulse(new Vector2(0, 2.5f), cat.b2body.getWorldCenter(), true);
 
                 //velocidad max q se puede permitir el gato
@@ -181,15 +175,17 @@ public class JuegoScreen implements Screen{
                     cat.b2body.applyLinearImpulse(new Vector2(0.05f, 0), cat.b2body.getWorldCenter(), true);
 
                 if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && cat.b2body.getLinearVelocity().x >= -0.8f)
-                    cat.b2body.applyLinearImpulse(new Vector2(-0.05f, 0), cat.b2body.getWorldCenter(), true);*/
+                    cat.b2body.applyLinearImpulse(new Vector2(-0.05f, 0), cat.b2body.getWorldCenter(), true);
             }
         }
 
-       // }
 
 
 
-
+    /**
+     * Renderiza la pantalla JuegoScreen.
+     * @param delta
+     */
     @Override
     public void render(float delta) {
 
@@ -202,44 +198,32 @@ public class JuegoScreen implements Screen{
         renderer.render();
 
 
-
-
         b2dr.render(world, gameCamera.combined);
 
-        game.batch.setProjectionMatrix(gameCamera.combined);
-        game.batch.begin();
-        cat.draw(game.batch);
-        ascensor.draw(game.batch);
-        key.draw(game.batch);
-        game.batch.end();
 
-        //matriz de proyeccion
-        game.batch.setProjectionMatrix(info.stage.getCamera().combined);
-        info.stage.draw();
-
-        game.batch.setProjectionMatrix(settings.stage.getCamera().combined);
-        settings.stage.draw();
-
-
-        game.batch.setProjectionMatrix(controlTouch.stage.getCamera().combined);
-        controlTouch.stage.draw();
-
-
-
-        if(cat !=null){
-            if (gameOver()) {
-                game.setScreen(new GameOverScreen(game, gato));
-                dispose();
-            }
+        if (gameOver()) {
+            game.setScreen(new GameOverScreen(level,game, gato));
+            this.dispose();
         }
+
+
     }
 
 
+    /**
+     * Reescala la pantalla dependiendo del ancho y el alto.
+     * @param width
+     * @param height
+     */
     @Override
     public void resize(int width, int height) {
         gamePort.update(width, height);
     }
 
+    /**
+     * Método que devuelve la pantalla cargada
+     * @return TiledMap
+     */
     public TiledMap getMap() {
         return map;
     }
@@ -265,12 +249,12 @@ public class JuegoScreen implements Screen{
 
     @Override
     public void dispose() {
+
         map.dispose();
         renderer.dispose();
         world.dispose();
         b2dr.dispose();
         info.dispose();
-        settings.dispose();
         controlTouch.dispose();
     }
 

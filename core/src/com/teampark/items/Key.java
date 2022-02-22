@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
@@ -24,6 +23,7 @@ public class Key extends Sprite {
     private Fixture fixture;
     private boolean recomponer;
     private Cat cat;
+    private boolean keyUp;
     public Key(JuegoScreen screen,float x, float y) {
         super(new Texture("key.png"));
         setScale(0.0032f,0.0032f);
@@ -50,12 +50,16 @@ public class Key extends Sprite {
 
     }
 
+    public boolean llaveCogida(){
+        return keyUp;
+    }
     private boolean mooveON = false;
     public void keySigue(){
         setCategoryFilter(MainGame.DESTROYED_BIT);
 
-
+        keyUp = true;
         mooveON = true;
+
         //        setPosition(cat.getX(),cat.getY());
     }
 

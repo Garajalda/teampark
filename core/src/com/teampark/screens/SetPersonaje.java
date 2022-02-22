@@ -28,6 +28,10 @@ import com.teampark.Sprites.cats.Cat;
 import java.util.ArrayList;
 
 
+/**
+ * Esta clase define la elección por parte del usuario sobre el personaje.
+ * @see com.badlogic.gdx.Screen
+ */
 public class SetPersonaje implements Screen{
 
     private final Stage stage;
@@ -43,6 +47,11 @@ public class SetPersonaje implements Screen{
     private int i = 0;
 
 
+    /**
+     * Método que define el personaje que ha elegido el ususario.
+     * @param tipoGato
+     * @return el sprite del tipo de gato.
+     */
     public Sprite tipoGato(Cat.TypeCat tipoGato){
 
         TextureAtlas textureAtlas = new TextureAtlas("Cats.pack");
@@ -55,10 +64,19 @@ public class SetPersonaje implements Screen{
     }
 
     boolean pressStartGameButton;
+
+    /**
+     * Método que indica si se ha presionado el botón para iniciar la partida.
+     * @return devueve boolean de si se ha pulsado o no
+     */
     public boolean getPressStartGameButton(){
         return pressStartGameButton;
     }
 
+    /**
+     * Constructor en el que se crea la ventana y su contenido, tambíen contiene eventos de si se pulsan ciertos botones.
+     * @param game
+     */
     public SetPersonaje(final MainGame game) {
         skin= new Skin(Gdx.files.internal("Terra_Mother_UI_Skin/terramotherui/terra-mother-ui.json"));
         this.game = game;
@@ -158,12 +176,35 @@ public class SetPersonaje implements Screen{
                         break;
                 }
 
+                if(i == 0){
+                    i = 1;
+                }else{
+                    i--;
+                }
+                return true;
+            }
+        });
+
+        buttonRightImg.addListener(new InputListener(){
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                switch (i){
+                    case 1:
+                        gatoElegido = Cat.TypeCat.BROWN;
+                        break;
+                    case 0:
+                        gatoElegido = Cat.TypeCat.BLACK;
+
+                        break;
+                }
+
                 if(i == 1){
                     i = 0;
                 }else{
                     i++;
                 }
-                return true;
+                return super.touchDown(event, x, y, pointer, button);
+
             }
         });
     }
@@ -177,6 +218,10 @@ public class SetPersonaje implements Screen{
 
     }
 
+    /**
+     * Método que renderiza la ventana y si se realiza el evento pasa a la ventana del juego.
+     * @param delta
+     */
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(1.0f, 0.9f, 0.6f, 0.0f);
@@ -190,7 +235,8 @@ public class SetPersonaje implements Screen{
         stage.draw();
         if(getPressStartGameButton()){
 
-            game.setScreen(new JuegoScreen(game, gatoElegido));
+            //game.setScreen(new JuegoScreen(game, gatoElegido));
+            game.setScreen(new SetLevel(game, gatoElegido));
             dispose();
         }
 

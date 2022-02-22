@@ -64,14 +64,12 @@ public class Cat extends Sprite {
         getTipoGato();
 
     }
-    public boolean hasMoved(){
-        if(previousPosition.x != getX() || previousPosition.y != getY()){
-            previousPosition.x = getX();
-            previousPosition.y = getY();
-            return true;
-        }
-        return false;
+
+    public void handleInput(float dt){
+
     }
+
+
 
     public void update(float dt){
         setPosition(b2body.getPosition().x-getWidth()/2, (float) ((double) b2body.getPosition().y-getHeight()/3.3));
@@ -192,7 +190,7 @@ public class Cat extends Sprite {
 
         shape.setAsBox((float)13/MainGame.PPM,(float) 9/MainGame.PPM);
         fdef.filter.categoryBits = MainGame.CAT_BIT;
-        fdef.filter.maskBits = MainGame.GROUND_BIT | MainGame.BOTON_BIT | MainGame.CAT_BIT | MainGame.ASCENSOR_BIT | MainGame.KEY_BIT;
+        fdef.filter.maskBits = MainGame.GROUND_BIT | MainGame.BOTON_BIT | MainGame.CAT_BIT | MainGame.ASCENSOR_BIT | MainGame.KEY_BIT |MainGame.PUERTA_BIT;
 
         fdef.shape = shape;
 

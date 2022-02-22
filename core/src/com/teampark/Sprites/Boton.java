@@ -25,5 +25,10 @@ public class Boton extends ObjetosTileInteractivos {
         getCell().setTile(tileSet.getTile(TILE_BTN_PULSADO));
     }
 
+    @Override
+    public void onBodyHit() {
+
+    }
+
 
 }

@@ -45,6 +45,7 @@ public abstract class ObjetosTileInteractivos {
 
 
     public abstract void onFootHit();
+    public abstract void onBodyHit();
     public void setCategoryFilter(short filterBit){
         Filter filter = new Filter();
         filter.categoryBits = filterBit;
@@ -60,4 +61,5 @@ public abstract class ObjetosTileInteractivos {
         return layer.getCell((int)(body.getPosition().x * MainGame.PPM/16),
                 (int)(body.getPosition().y * MainGame.PPM/16));
     }
+
 }

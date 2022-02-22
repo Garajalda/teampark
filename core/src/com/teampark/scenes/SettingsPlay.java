@@ -19,28 +19,37 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.teampark.MainGame;
+import com.teampark.Sprites.cats.Cat;
+import com.teampark.screens.JuegoScreen;
+import com.teampark.screens.SetLevel;
 
-public class SettingsPlay implements Disposable {
+public class SettingsPlay implements Disposable{
 
     public Stage stage;
-
-
     public Viewport viewport;
 
-
+    MainGame game;
     public boolean isPressedSettings() {
         return pressedSettings;
     }
-
+    Cat.TypeCat gatoElegido;
     boolean pressedSettings;
-    public SettingsPlay(final SpriteBatch sb){
+    String level;
+    JuegoScreen juegoScreen;
+    public boolean tableVisible;
+    public SettingsPlay(final JuegoScreen juegoScreen, final String level, final MainGame game, final SpriteBatch sb, final Cat.TypeCat gatoElegido){
+
         viewport = new FitViewport(MainGame.VIEW_WIDTH, MainGame.VIEW_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport,sb);
-
+        this.level = level;
+        this.gatoElegido = gatoElegido;
+        this.game = game;
+        this.juegoScreen = juegoScreen;
         final Table table = new Table();
         table.setFillParent(true);
         table.right().top().padTop(2).padRight(2);
 
+        Gdx.input.setInputProcessor(MainGame.multiplexer);
         //Image settingImg = new Image(new Texture("configuraciones.png"));
         Drawable drawable = new TextureRegionDrawable(new TextureRegion(new Texture("configuraciones.png")));
         final Skin skin = new Skin(Gdx.files.internal("Terra_Mother_UI_Skin/terramotherui/terra-mother-ui.json"));
@@ -69,21 +78,29 @@ public class SettingsPlay implements Disposable {
         text2.addListener(new InputListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                table1.setVisible(false);
+                //table1.setVisible(false);
+
+                game.setScreen(new SetLevel(game,gatoElegido));
+                juegoScreen.dispose();
+                dispose();
                 return true;
             }
         });
 
         btnSetting.setSize(16,16);
         btnSetting.addListener(new InputListener(){
+
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                table1.setVisible(true);
+                tableVisible = tableVisible ? false : true;
+
+                table1.setVisible(tableVisible);
                 pressedSettings = true;
                 return true;
             }
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+
                 pressedSettings = false;
 
             }
@@ -91,11 +108,16 @@ public class SettingsPlay implements Disposable {
 
         table.add(btnSetting).size(btnSetting.getWidth(),btnSetting.getHeight());
         stage.addActor(table);
+
+        MainGame.multiplexer.addProcessor(stage);
+
     }
 
     @Override
     public void dispose() {
+
         stage.dispose();
+
     }
 
 

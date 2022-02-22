@@ -7,19 +7,36 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.teampark.MainGame;
 
+/**
+ * Clase que define el control del touch, tanto las imagenes como la lógica.
+ * @see Touchpad
+ * @see Disposable
+ * @see InputProcessor
+ */
 public class Controllers extends Touchpad implements Disposable, InputProcessor {
 
+    /**
+     *Define coordenadas de la camara y tamaño.
+     */
     Viewport viewport;
+
+    /**
+     * Escena que contiene actores y acciones.
+     */
     public Stage stage;
 
     //Touchpad
 
+    /**
+     * Método que define el estilo del touchpad.
+     * @return devuelve un objeto de TouchpadStyle
+     */
         private static TouchpadStyle getTouchPadStyle(){
             Skin touchpadSkin;
             touchpadSkin = new Skin();
@@ -33,8 +50,14 @@ public class Controllers extends Touchpad implements Disposable, InputProcessor 
         }
 
 
+    /**
+     * Constructor que define los elementos del Touchpad, stage y el viewport.
+     * @param batch
+     */
     public Controllers(SpriteBatch batch){
         super(4,Controllers.getTouchPadStyle());
+        Gdx.input.setInputProcessor(MainGame.multiplexer);
+
         viewport = new FitViewport(MainGame.VIEW_WIDTH,MainGame.VIEW_HEIGHT,new OrthographicCamera());
 
 
@@ -42,8 +65,9 @@ public class Controllers extends Touchpad implements Disposable, InputProcessor 
 
         setBounds(15, 10, 80, 80);
         stage.addActor(this);
+        //MainGame.multiplexer.addProcessor(settings.stage);
         MainGame.multiplexer.addProcessor(stage);
-        //Gdx.input.setInputProcessor(stage);
+
     }
 
 

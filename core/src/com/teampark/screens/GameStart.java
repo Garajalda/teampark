@@ -19,15 +19,24 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.teampark.MainGame;
 
+/**
+ * Esta clase inicia la pantalla de Start del juego.
+ * @see Screen
+ *
+ */
 public class GameStart implements Screen {
 
     private final Stage stage;
-
     private final Game game;
-
     Image fondoImage;
-
     Music music;
+
+
+    /**
+     * Constructor para iniciar la ventana.
+     * @param game
+     *
+     */
     public GameStart(MainGame game){
 
         final Viewport viewport;
@@ -60,6 +69,12 @@ public class GameStart implements Screen {
 
     }
 
+
+    /**
+     * Método que inicia el renderizado de la ventana o pasa a otra ventana donde se puede elegir el personaje.
+     * @param delta
+     *
+     */
     @Override
     public void render(float delta) {
 
