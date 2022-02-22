@@ -61,6 +61,7 @@ public class WorldContactListener implements ContactListener {
             case MainGame.ASCENSOR_BIT | MainGame.CAT_BIT:
                 if(fixA.getFilterData().categoryBits== MainGame.CAT_BIT) {
                     catTouchAscensor = true;
+                    catNotTouch = false;
                     System.out.println("toca ascensor");
                 }
             case MainGame.GROUND_BIT | MainGame.CAT_BIT:
