@@ -266,7 +266,6 @@ public class SetPersonaje implements Screen{
 
     @Override
     public void dispose() {
-        music.dispose();
         stage.dispose();
     }
 

@@ -23,11 +23,20 @@ public class Level1 extends JuegoScreen{
      * @param game
      * @param gato
      */
+   Music music;
     public Level1(String level, MainGame game, Cat.TypeCat gato) {
         super(level, game, gato);
 
         TmxMapLoader mapLoader = new TmxMapLoader();
         map = mapLoader.load("lvl1.tmx");
+
+
+
+        this.music = MainGame.managerSongs.get("audio/music/MusicPlatform.mp3");
+        music.setLooping(true);
+        if(PreferencesClass.getSoundPreferences("sound")){
+            music.play();
+        }
 
         //unidades de escala
         renderer = new OrthogonalTiledMapRenderer(map, (float) 1 / MainGame.PPM);
@@ -40,8 +49,6 @@ public class Level1 extends JuegoScreen{
 
         //tipo contacto
         world.setContactListener(new WorldContactListener());
-        Music music = MainGame.managerSongs.get("audio/music/aeon.ogg", Music.class);
-        music.setLooping(true);
 
         cat = new Cat(this, gato,50,40);
         //ascensor
@@ -49,6 +56,8 @@ public class Level1 extends JuegoScreen{
         ascensor.body.setActive(false);
         //crear key
         key = new Key(this,9.3f, (float) 160 / MainGame.PPM);
+
+
 
 
     }
@@ -88,8 +97,12 @@ public class Level1 extends JuegoScreen{
         if(Puerta.isNextLevel()){
             level = "1-2";
             PreferencesClass.setLevelPreferences(2+"",level);
+
             game.setScreen(new Level2(level,game,gato));
+            Puerta.setNextLevel(false);
+            music.stop();
             dispose();
+
         }
 
     }
@@ -141,9 +154,9 @@ public class Level1 extends JuegoScreen{
     @Override
     public void dispose() {
 
-       map.dispose();
-       controlTouch.dispose();
-       settings.dispose();
+        map.dispose();
+        controlTouch.dispose();
+        settings.dispose();
     }
 
 

@@ -65,9 +65,6 @@ public class Cat extends Sprite {
 
     }
 
-    public void handleInput(float dt){
-
-    }
 
 
 

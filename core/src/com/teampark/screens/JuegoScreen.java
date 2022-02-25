@@ -47,6 +47,7 @@ public class JuegoScreen implements Screen{
     Cat.TypeCat gato;
     String level;
 
+
     /**
      * Constructor que define el mapa, los elementos de la ventana.
      * @param game
@@ -56,6 +57,7 @@ public class JuegoScreen implements Screen{
         textureAtlas = new TextureAtlas("Cats.pack");
         world = new World(new Vector2(0, -9.8f), true);
         this.level = level;
+
 
 
         this.game = game;
@@ -72,11 +74,9 @@ public class JuegoScreen implements Screen{
 
         //tipo contacto
         world.setContactListener(new WorldContactListener());
-        Music music = MainGame.managerSongs.get("audio/music/aeon.ogg", Music.class);
-        music.setLooping(true);
 
 
-        //music.play();
+
 
     }
 
@@ -139,7 +139,7 @@ public class JuegoScreen implements Screen{
             final float fastAreaMin = Gdx.graphics.getWidth() / 2;
 
 
-            for (int j = 0; j < 2; j++) {
+            for (int j = 0; j < 20; j++) {
                 if (Gdx.input.isTouched(j)) {
                     final float iX = Gdx.input.getX(j);
                     camina = camina || (iX < fastAreaMin);
@@ -205,6 +205,9 @@ public class JuegoScreen implements Screen{
 
 
         if (gameOver()) {
+            Music music = MainGame.managerSongs.get("audio/music/MusicPlatform.mp3", Music.class);
+            music.setLooping(true);
+            music.play();
             game.setScreen(new GameOverScreen(level,game, gato));
             this.dispose();
         }

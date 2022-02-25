@@ -5,8 +5,10 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.teampark.screens.GameStart;
+
 /**
  * Clase que inicia todas las dependencias del juego, es la raíz del juego.
  * @author Gara Jalda
@@ -35,13 +37,16 @@ public class MainGame extends Game{
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
+
+
 		managerSongs = new AssetManager();
-		//managerSongs.load("audio/sounds/click.wav", Sound.class);
+		managerSongs.load("audio/sounds/click.wav", Sound.class);
+		managerSongs.load("audio/music/MusicPlatform.mp3",Music.class);
 		managerSongs.load("audio/music/aeon.ogg", Music.class);
+		managerSongs.load("audio/music/MusicPlatform2.mp3",Music.class);
 		managerSongs.finishLoading();
+
 		setScreen(new GameStart(this));
-
-
 
 	}
 

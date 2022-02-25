@@ -1,5 +1,6 @@
 package com.teampark.Sprites;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.maps.tiled.TiledMapTileSet;
 import com.badlogic.gdx.math.Rectangle;
 import com.teampark.MainGame;
@@ -20,7 +21,7 @@ public class Boton extends ObjetosTileInteractivos {
     public void onFootHit() {
         btnPulsado = true;
         setCategoryFilter(MainGame.DESTROYED_BIT);
-           // MainGame.managerSongs.get("audio/sounds/click.wav",Music.class).play();
+        MainGame.managerSongs.get("audio/sounds/click.wav", Sound.class).play();
         int TILE_BTN_PULSADO = 583;
         getCell().setTile(tileSet.getTile(TILE_BTN_PULSADO));
     }

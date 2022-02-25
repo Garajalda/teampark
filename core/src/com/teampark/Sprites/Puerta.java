@@ -16,8 +16,8 @@ public class Puerta extends ObjetosTileInteractivos {
         setCategoryFilter(MainGame.PUERTA_BIT);
     }
 
-    public void setNextLevel(boolean next){
-        nextLevel = true;
+    public static void setNextLevel(boolean next){
+        nextLevel = next;
     }
 
     public static boolean isNextLevel(){

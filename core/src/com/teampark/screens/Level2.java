@@ -19,10 +19,16 @@ public class Level2 extends JuegoScreen{
      * @param game
      * @param gato
      */
+    Music music;
     public Level2(String level, MainGame game, Cat.TypeCat gato) {
         super(level, game, gato);
         TmxMapLoader mapLoader = new TmxMapLoader();
         map = mapLoader.load("lvl2.tmx");
+
+        this.music  = MainGame.managerSongs.get("audio/music/MusicPlatform2.mp3");
+        music.setLooping(true);
+        music.play();
+
 
         //unidades de escala
         renderer = new OrthogonalTiledMapRenderer(map, (float) 1 / MainGame.PPM);
@@ -36,8 +42,7 @@ public class Level2 extends JuegoScreen{
 
         //tipo contacto
         world.setContactListener(new WorldContactListener());
-        Music music = MainGame.managerSongs.get("audio/music/aeon.ogg", Music.class);
-        music.setLooping(true);
+
 
         cat = new Cat(this, gato,50,40);
 
@@ -93,8 +98,8 @@ public class Level2 extends JuegoScreen{
 
     @Override
     public void dispose() {
-
         map.dispose();
+
         controlTouch.dispose();
         settings.dispose();
     }

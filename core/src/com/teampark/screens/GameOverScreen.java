@@ -2,6 +2,7 @@ package com.teampark.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -27,7 +28,7 @@ public class GameOverScreen implements Screen {
     private MainGame game;
     Cat.TypeCat gato;
     String level;
-    public GameOverScreen(String level,MainGame game, Cat.TypeCat gato){
+    public GameOverScreen(String level, MainGame game, Cat.TypeCat gato){
         this.game = game;
         this.gato = gato;
         this.level =level;
@@ -39,7 +40,7 @@ public class GameOverScreen implements Screen {
         table.center();
         table.setFillParent(true);
 
-        Label gameOverLabel = new Label("GAME OVER", font);
+
         Label playAgainLabel = new Label("Pulsa  para  reiniciar  la  partida",font);
         Image image = new Image(new Texture("gameover.png"));
         image.setScale(0.6f,0.5f);
@@ -68,11 +69,17 @@ public class GameOverScreen implements Screen {
 
             if(level.equals("1-1")){
 
+                Music music = MainGame.managerSongs.get("audio/music/MusicPlatform.mp3", Music.class);
+                music.setLooping(true);
+                music.play();
                 game.setScreen(new Level1(level,game, gato));
 
 
             }
             if(level.equals("1-2")){
+                Music music = MainGame.managerSongs.get("audio/music/MusicPlatform.mp3", Music.class);
+                music.setLooping(true);
+                music.play();
                 game.setScreen(new Level2(level,game,gato));
             }
             dispose();

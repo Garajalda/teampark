@@ -2,6 +2,7 @@ package com.teampark.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -36,11 +37,16 @@ public class SetLevel implements Screen {
         return pressStartLevel;
     }
 
+    Music music;
     String level;
-    public SetLevel(final MainGame game, Cat.TypeCat gatoElegido){
+    public SetLevel(final MainGame game, final Cat.TypeCat gatoElegido){
         this.game = game;
         this.gatoElegido = gatoElegido;
         this.level = "1-1";
+
+        music = MainGame.managerSongs.get("audio/music/aeon.ogg", Music.class);
+        music.setLooping(true);
+
         Gdx.input.setInputProcessor(MainGame.multiplexer);
 
         PreferencesClass.setLevelPreferences(1+"",level);
@@ -59,7 +65,7 @@ public class SetLevel implements Screen {
         table.setFillParent(true);
         table.top();
 
-        ImageTextButton label = new ImageTextButton("Elige el nivel",skin);
+        ImageTextButton label = new ImageTextButton("Elige el nivel",skin,"default");
 
 
         table.row().expandX().center();
@@ -100,6 +106,10 @@ public class SetLevel implements Screen {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 level = "1-1";
                 pressStartLevel = true;
+                game.setScreen(new Level1(level,game, gatoElegido));
+                music.stop();
+                dispose();
+
                 return true;
             }
         });
@@ -109,7 +119,10 @@ public class SetLevel implements Screen {
                 @Override
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                     level = "1-2";
+                    game.setScreen(new Level2(level,game,gatoElegido));
                     pressStartLevel = true;
+                    music.stop();
+                    dispose();
                     return true;
                 }
             });
@@ -128,20 +141,12 @@ public class SetLevel implements Screen {
         Gdx.gl.glClearColor(1.0f, 0.9f, 0.6f, 0.0f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+
         MainGame.multiplexer.addProcessor(stage);
 
+
         stage.draw();
-        if(pressStartLevel()){
-            if(level.equals("1-1")){
 
-                game.setScreen(new Level1(level,game, gatoElegido));
-
-            }
-            if(level.equals("1-2")){
-                game.setScreen(new Level2(level,game,gatoElegido));
-            }
-            dispose();
-        }
     }
 
     @Override
@@ -166,6 +171,7 @@ public class SetLevel implements Screen {
 
     @Override
     public void dispose() {
+
         stage.dispose();
 
     }
