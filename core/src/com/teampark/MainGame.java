@@ -39,7 +39,6 @@ public class MainGame extends Game{
 	public void create () {
 		batch = new SpriteBatch();
 
-
 		managerSongs = new AssetManager();
 		managerSongs.load("audio/sounds/click.wav", Sound.class);
 		managerSongs.load("audio/music/MusicPlatform.mp3",Music.class);
