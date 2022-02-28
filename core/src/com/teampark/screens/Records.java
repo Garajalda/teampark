@@ -19,21 +19,83 @@ import com.teampark.Sprites.cats.Cat;
 import com.teampark.scenes.TableRecords;
 import com.teampark.tools.PreferencesClass;
 
+/**
+ * Esta clase es la pantalla que recoge los records almacenados o los escribe.
+ * @see Screen
+ * @author Gara Jalda / Colegio Vivas
+ * @version 1.0, 2022/02/27
+ */
 public class Records implements Screen {
 
-    private Viewport viewport;
-    private Stage stage;
+    /**
+     * Define la resolución de la pantalla
+     * @see Viewport
+     */
+    private final Viewport viewport;
 
-    private BitmapFont font;
-    private MainGame game;
-    private Screen screen;
+    /**
+     * Define el escenario de la ventana
+     * @see Stage
+     */
+    private final Stage stage;
+
+    /**
+     * Define el estilo de fuente de la ventana
+     * @see BitmapFont
+     */
+    private final BitmapFont font;
+
+    /**
+     * Define la raíz del juego donde se cargan los assets.
+     * @see MainGame
+     */
+    private final MainGame game;
+
+    /**
+     * Ventana actual definida en el constructor
+     * @see Screen
+     */
+    private final Screen screen;
+
+    /**
+     * Define el tipo del gato actual
+     * @see Cat
+     */
     private Cat.TypeCat gatoElegido;
-    private StringBuilder tiempoTotal;
-    private TableRecords tableRecords;
-    private Table table;
-    private Label labelRecords;
-    private Label.LabelStyle labelStyle;
 
+    /**
+     *Tiempo en el que finalizó el nivel
+     */
+    private StringBuilder tiempoTotal;
+    /**
+     * Recoge los records guardados
+     * @see TableRecords
+     */
+    private TableRecords tableRecords;
+    /**
+     * Implementa tabla en la ventana
+     * @see Table
+     */
+    private final Table table;
+
+    /**
+     * Define una etiqueta de título de la ventana
+     * @see Label
+     */
+    private final Label labelRecords;
+
+    /**
+     * Define un estilo de label
+     * @see Label.LabelStyle
+     */
+    private final Label.LabelStyle labelStyle;
+
+
+    /**
+     * Constructor que define la ventana records en caso de superar el nivel 2
+     * @param game
+     * @param screen
+     */
     public Records(final MainGame game,final Screen screen){
         this.game = game;
         this.screen = screen;
@@ -64,13 +126,19 @@ public class Records implements Screen {
             table.add(new Label(k,labelStyle)).center();
             table.add(new Label(PreferencesClass.getRecordPreferences().get(k).toString(),labelStyle)).center();
             table.row().expandX().center();
-
         }
 
         Onclick();
         stage.addActor(table);
     }
 
+    /**
+     * Constructor que define records en caso de que se buscar un record sin haber terminado la partida
+     * @param game
+     * @param screen
+     * @param gatoElegido
+     * @param tiempoTotal
+     */
     public Records(final MainGame game, final Screen screen, final Cat.TypeCat gatoElegido, StringBuilder tiempoTotal){
         this.game = game;
         this.screen = screen;
@@ -113,9 +181,11 @@ public class Records implements Screen {
 
         stage.addActor(table);
 
-
     }
 
+    /**
+     * Método que define el evento de la escena cuando se quiera volver a una ventana anterior.
+     */
     public void Onclick(){
         this.tableRecords = new TableRecords(game,screen,gatoElegido,tiempoTotal, game.batch);
         stage.addListener(new InputListener(){
@@ -152,11 +222,19 @@ public class Records implements Screen {
 
     }
 
+    /**
+     * @see Screen#show()
+     */
     @Override
     public void show() {
 
     }
 
+    /**
+     * Método que inicia el renderizado.
+     * @param delta
+     * @see Screen#render(float)
+     */
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(1.0f, 0.9f, 0.6f, 0.0f);
@@ -166,26 +244,44 @@ public class Records implements Screen {
         tableRecords.stage.draw();
     }
 
+    /**
+     * @see Screen#resize(int, int)
+     * @param width
+     * @param height
+     */
     @Override
     public void resize(int width, int height) {
 
     }
 
+    /**
+     * @see Screen#pause()
+     */
     @Override
     public void pause() {
 
     }
 
+    /**
+     * @see Screen#resume()
+     */
     @Override
     public void resume() {
 
     }
 
+    /**
+     * @see Screen#hide()
+     */
     @Override
     public void hide() {
 
     }
 
+    /**
+     * Método que libera recursos de la escena.
+     * @see Screen#dispose()
+     */
     @Override
     public void dispose() {
         stage.dispose();

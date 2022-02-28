@@ -16,27 +16,35 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.teampark.MainGame;
 import com.teampark.Sprites.cats.Cat;
 
+/**
+ * Ventana para los creditos
+ * @see Screen
+ * @author Gara Jalda / Colegio Vivas
+ * @version 1.0, 2022/02/15
+ */
 public class Creditos implements Screen {
-    private Viewport viewport;
-    private Stage stage;
 
-    private BitmapFont font;
-    private MainGame game;
-    private Screen screen;
-    private Cat.TypeCat gato;
+    /**
+     * Escenario de la Screen
+     * @see Stage
+     */
+    private final Stage stage;
 
+    /**
+     * Constructor que define el texto que tendrá los créditos y el comportamiento de eventos.
+     * @param game
+     * @param screen
+     * @param gato
+     */
     public Creditos(final MainGame game, final Screen screen, final Cat.TypeCat gato){
-        this.game = game;
-        this.screen = screen;
-        this.gato = gato;
-        this.viewport = new FitViewport((float) MainGame.VIEW_WIDTH,MainGame.VIEW_HEIGHT);
 
+        Viewport viewport = new FitViewport((float) MainGame.VIEW_WIDTH, MainGame.VIEW_HEIGHT);
         Gdx.input.setInputProcessor(MainGame.multiplexer);
 
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("font/dogicapixel.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter params = new FreeTypeFontGenerator.FreeTypeFontParameter();
         params.size = 10;
-        font = generator.generateFont(params);
+        BitmapFont font = generator.generateFont(params);
 
         stage = new Stage(viewport, ((MainGame)game).batch);
         Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.WHITE);
@@ -92,11 +100,22 @@ public class Creditos implements Screen {
             }
         });
     }
+
+
+    /**
+     * @see Screen#show()
+     */
     @Override
     public void show() {
 
     }
 
+
+    /**
+     * Método que permite el renderizado de la ventana o la escena y añade los diferentes eventos de una escena.
+     * @see Screen#render(float)
+     * @param delta
+     */
     @Override
     public void render(float delta) {
 
@@ -108,26 +127,46 @@ public class Creditos implements Screen {
         //font.draw(game.batch, "jpña",20,70);
     }
 
+
+    /**
+     * @see Screen#resize(int, int)
+     * @param width
+     * @param height
+     */
     @Override
     public void resize(int width, int height) {
 
     }
 
+
+    /**
+     * @see Screen#pause()
+     */
     @Override
     public void pause() {
 
     }
 
+    /**
+     * @see Screen#resume() ()
+     */
     @Override
     public void resume() {
 
     }
 
+    /**
+     * @see Screen#hide()
+     */
     @Override
     public void hide() {
 
     }
 
+    /**
+     * Método que libera recursos de la escena.
+     * @see Screen#dispose()
+     */
     @Override
     public void dispose() {
         stage.dispose();

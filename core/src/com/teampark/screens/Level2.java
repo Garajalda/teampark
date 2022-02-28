@@ -1,11 +1,11 @@
 package com.teampark.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.teampark.MainGame;
 import com.teampark.Sprites.Cubo;
 import com.teampark.Sprites.Puerta;
@@ -15,17 +15,37 @@ import com.teampark.tools.CreadorDeMundo;
 import com.teampark.tools.PreferencesClass;
 import com.teampark.tools.WorldContactListener;
 
+/**
+ * Clase que define el nivel 2 de la aplicación
+ * @see Screen
+ * @see JuegoScreen hereda
+ * @author Gara Jalda / Colegio Vivas
+ * @version 1.0, 2022/02/12
+ */
 public class Level2 extends JuegoScreen{
+
     /**
-     * Constructor que define el mapa, los elementos de la ventana.
-     *
-     * @param level
-     * @param game
-     * @param gato
+     * Inicia la musica del nivel 2
      */
     Music music;
+    /**
+     * Crea las colisiones del nivel 2
+     * @see CreadorDeMundo
+     */
     CreadorDeMundo creadorDeMundo;
+
+    /**
+     * Define el tipo de gato actualmente elegido
+     * @see Cat
+     */
     Cat.TypeCat gatoElegido;
+
+    /**
+     * Constructor que define el mapa, los elementos de la ventana
+     * @param level
+     * @param game
+     * @param gatoElegido
+     */
     public Level2(String level, MainGame game, Cat.TypeCat gatoElegido) {
         super(level, game, gatoElegido);
         TmxMapLoader mapLoader = new TmxMapLoader();
@@ -46,11 +66,8 @@ public class Level2 extends JuegoScreen{
         //posicion de camara con relacion y aspecto del mundo
         gameCamera.position.set(gamePort.getWorldWidth() / 2, gamePort.getWorldHeight() / 2, 0);
 
-        //debug
-        b2dr = new Box2DDebugRenderer();
         //creando los objetos del mundo
         creadorDeMundo = new CreadorDeMundo(this);
-
 
         //tipo contacto
         world.setContactListener(new WorldContactListener());
@@ -60,22 +77,42 @@ public class Level2 extends JuegoScreen{
 
     }
 
+    /**
+     * Método que define los eventos de movimiento del personaje.
+     * @param dt
+     * @see JuegoScreen#handleInput(float)
+     */
     @Override
     protected void handleInput(float dt) {
         super.handleInput(dt);
     }
 
+    /**
+     * Reescala la pantalla dependiendo del ancho y el alto.
+     * @param width
+     * @param height
+     */
     @Override
     public void resize(int width, int height) {
         super.resize(width, height);
     }
 
+    /**
+     * Método que define la actualización y movimiento de los diferentes componentes dentro de la pantalla.
+     * @param dt
+     * @see JuegoScreen#update(float)
+     */
     @Override
     public void update(float dt) {
         super.update(dt);
         cat.update(dt); key.update(dt,cat);
     }
 
+    /**
+     * Renderiza la pantalla del nivel 2.
+     * @param delta
+     * @see Screen#render(float)
+     */
     @Override
     public void render(float delta) {
         super.render(delta);
@@ -83,7 +120,7 @@ public class Level2 extends JuegoScreen{
         Gdx.gl.glClearColor(0.6f, 0.7f, 0.7f, 0.0f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         renderer.render();
-        b2dr.render(world, gameCamera.combined);
+
         //matriz de proyeccion
 
         game.batch.setProjectionMatrix(gameCamera.combined);
@@ -119,14 +156,22 @@ public class Level2 extends JuegoScreen{
         }
     }
 
+    /**
+     * Método que libera recursos.
+     * @see Screen#dispose()
+     */
     @Override
     public void dispose() {
         map.dispose();
-
         controlTouch.dispose();
         settings.dispose();
     }
 
+    /**
+     * Método que define si el protagonista ha muerto.
+     * @return devuelve un booleano sobre el estado del gato.
+     * @see JuegoScreen#gameOver()
+     */
     @Override
     public boolean gameOver() {
         return super.gameOver();

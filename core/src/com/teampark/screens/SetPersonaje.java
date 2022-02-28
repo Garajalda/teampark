@@ -32,24 +32,23 @@ import java.util.ArrayList;
 
 /**
  * Esta clase define la elección por parte del usuario sobre el personaje.
- * @see com.badlogic.gdx.Screen
+ * @see Screen
+ * @author Gara Jalda / Colegio Vivas
+ * @version 1.0, 2022/02/17
  */
 public class SetPersonaje implements Screen{
 
     private final Stage stage;
-    private MainGame game;
+    private final MainGame game;
     Skin skin;
-    private Array<Sprite> catImages;
-
+    private final Array<Sprite> catImages;
     public static ArrayList<Cat.TypeCat> map = new ArrayList<>();
     public Cat.TypeCat gatoElegido;
-
     Music music;
     Sprite cat;
     private int i = 0;
     boolean soundBoolean;
     final ImageTextButton sound;
-
 
     /**
      * Método que define el personaje que ha elegido el ususario.
@@ -68,15 +67,6 @@ public class SetPersonaje implements Screen{
     }
 
     boolean pressStartGameButton;
-    Music musicInicio;
-
-    /**
-     * Método que indica si se ha presionado el botón para iniciar la partida.
-     * @return devueve boolean de si se ha pulsado o no
-     */
-    public boolean getPressStartGameButton(){
-        return pressStartGameButton;
-    }
 
     /**
      * Constructor en el que se crea la ventana y su contenido, tambíen contiene eventos de si se pulsan ciertos botones.
@@ -88,13 +78,9 @@ public class SetPersonaje implements Screen{
         final Viewport viewport;
         viewport = new FitViewport((float) MainGame.VIEW_WIDTH,MainGame.VIEW_HEIGHT);
 
-
-
-
         this.catImages = new Array<>();
         catImages.add(tipoGato(Cat.TypeCat.BROWN));
         catImages.add(tipoGato(Cat.TypeCat.BLACK));
-
 
         this.stage = new Stage(viewport, ((MainGame)game).batch);
         gatoElegido = Cat.TypeCat.BLACK;
@@ -104,9 +90,7 @@ public class SetPersonaje implements Screen{
         music.setLooping(true);
 
 
-
         final Skin skin = new Skin(Gdx.files.internal("Terra_Mother_UI_Skin/terramotherui/terra-mother-ui.json"));
-
         final ImageTextButton records = new ImageTextButton("Records", skin,"default");
         final ImageTextButton salir = new ImageTextButton("Salir", skin,"default");
         final ImageTextButton creditos = new ImageTextButton("Ver creditos", skin,"default");
@@ -212,13 +196,10 @@ public class SetPersonaje implements Screen{
         //eventos botones
         buttonLeftImg.addListener(new InputListener(){
 
-
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
 
             }
-
-
 
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -231,12 +212,7 @@ public class SetPersonaje implements Screen{
 
                         break;
                 }
-
-                if(i == 0){
-                    i = 1;
-                }else{
-                    i--;
-                }
+                i = i == 0 ? 1 : 0;
                 return true;
             }
         });
@@ -253,12 +229,7 @@ public class SetPersonaje implements Screen{
 
                         break;
                 }
-
-                if(i == 1){
-                    i = 0;
-                }else{
-                    i++;
-                }
+                i = i == 1 ? 0 : 1;
                 return super.touchDown(event, x, y, pointer, button);
 
             }
@@ -267,7 +238,7 @@ public class SetPersonaje implements Screen{
         sound.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                soundBoolean = soundBoolean ? false : true;
+                soundBoolean = !soundBoolean;
                 PreferencesClass.setSoundPreferences("sound", soundBoolean);
                 sound.setText(PreferencesClass.getSoundPreferences("sound") ? "Sonido: On" : "Sonido: Off");
 
@@ -276,22 +247,20 @@ public class SetPersonaje implements Screen{
                 } else {
                     music.stop();
                 }
-
-
                 return true;
             }
         });
 
     }
 
+    /**
+     * @see Screen#show()
+     */
     @Override
     public void show() {
 
     }
 
-    public void update(float dt){
-
-    }
 
     /**
      * Método que renderiza la ventana y si se realiza el evento pasa a la ventana del juego.
@@ -301,7 +270,6 @@ public class SetPersonaje implements Screen{
     public void render(float delta) {
         Gdx.gl.glClearColor(1.0f, 0.9f, 0.6f, 0.0f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        update(delta);
         game.batch.begin();
         game.batch.draw(catImages.get(i),211,120);
         this.cat = tipoGato(gatoElegido);
@@ -309,31 +277,46 @@ public class SetPersonaje implements Screen{
         stage.act();
         stage.draw();
 
-
     }
 
-
-
+    /**
+     * @see Screen#resize(int, int)
+     * @param width
+     * @param height
+     */
     @Override
     public void resize(int width, int height) {
 
     }
 
+    /**
+     * @see Screen#pause()
+     */
     @Override
     public void pause() {
 
     }
 
+    /**
+     * @see Screen#resume()
+     */
     @Override
     public void resume() {
 
     }
 
+    /**
+     * @see Screen#hide()
+     */
     @Override
     public void hide() {
 
     }
 
+    /**
+     * Método que libera recursos de la escena.
+     * @see Screen#dispose()
+     */
     @Override
     public void dispose() {
         stage.dispose();

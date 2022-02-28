@@ -1,11 +1,11 @@
 package com.teampark.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.teampark.MainGame;
 import com.teampark.Sprites.Puerta;
 import com.teampark.Sprites.cats.Cat;
@@ -15,23 +15,31 @@ import com.teampark.tools.CreadorDeMundo;
 import com.teampark.tools.PreferencesClass;
 import com.teampark.tools.WorldContactListener;
 
+/**
+ * Clase que define el nivel 1 de la aplicación
+ * @see Screen
+ * @see JuegoScreen hereda
+ * @author Gara Jalda / Colegio Vivas
+ * @version 1.0, 2022/02/12
+ */
 public class Level1 extends JuegoScreen{
+
+    /**
+     * Inicia la música del nivel
+     */
+    Music music;
+
     /**
      * Constructor que define el mapa, los elementos de la ventana.
-     *
      * @param level
      * @param game
      * @param gato
      */
-   Music music;
     public Level1(String level, MainGame game, Cat.TypeCat gato) {
         super(level, game, gato);
 
         TmxMapLoader mapLoader = new TmxMapLoader();
         map = mapLoader.load("lvl1.tmx");
-
-
-
         this.music = MainGame.managerSongs.get("audio/music/MusicPlatform.mp3");
         music.setLooping(true);
         if(PreferencesClass.getSoundPreferences("sound")){
@@ -42,8 +50,7 @@ public class Level1 extends JuegoScreen{
         renderer = new OrthogonalTiledMapRenderer(map, (float) 1 / MainGame.PPM);
         //posicion de camara con relacion y aspecto del mundo
         gameCamera.position.set(gamePort.getWorldWidth() / 2, gamePort.getWorldHeight() / 2, 0);
-        //debug
-        b2dr = new Box2DDebugRenderer();
+
         //creando los objetos del mundo
         new CreadorDeMundo(this);
 
@@ -57,13 +64,13 @@ public class Level1 extends JuegoScreen{
         //crear key
         key = new Key(this,9.3f, (float) 160 / MainGame.PPM);
 
-
-
-
     }
 
-
-
+    /**
+     * Renderiza la pantalla del nivel1.
+     * @param delta
+     * @see Screen#render(float)
+     */
     @Override
     public void render(float delta) {
 
@@ -74,7 +81,7 @@ public class Level1 extends JuegoScreen{
 
 
         renderer.render();
-        b2dr.render(world, gameCamera.combined);
+
         //matriz de proyeccion
         game.batch.setProjectionMatrix(info.stage.getCamera().combined);
         info.stage.draw();
@@ -107,50 +114,68 @@ public class Level1 extends JuegoScreen{
 
     }
 
+    /**
+     * Método que define los eventos de movimiento del personaje.
+     * @param dt
+     * @see JuegoScreen#handleInput(float)
+     */
     @Override
     protected void handleInput(float dt) {
         super.handleInput(dt);
     }
 
+    /**
+     * Reescala la pantalla dependiendo del ancho y el alto.
+     * @param width
+     * @param height
+     */
     @Override
     public void resize(int width, int height) {
         super.resize(width, height);
     }
 
+    /**
+     * Método que define la actualización y movimiento de los diferentes componentes dentro de la pantalla.
+     * @param dt
+     * @see JuegoScreen#update(float)
+     */
     @Override
     public void update(float dt) {
         super.update(dt);
         ascensor.update(dt);
-        //creando catBlack
-
         key.update(dt,cat);
         cat.update(dt);
-
-
     }
 
+
     /**
-     * Método que devuelve la pantalla cargada
-     * @return TiledMap
+     * @see Screen#pause()
      */
-
-
-
     @Override
     public void pause() {
 
     }
 
+    /**
+     * @see Screen#resume()
+     */
     @Override
     public void resume() {
 
     }
 
+    /**
+     * @see Screen#hide()
+     */
     @Override
     public void hide() {
 
     }
 
+    /**
+     * Método que libera recursos.
+     * @see Screen#dispose()
+     */
     @Override
     public void dispose() {
 
@@ -159,7 +184,11 @@ public class Level1 extends JuegoScreen{
         settings.dispose();
     }
 
-
+    /**
+     * Método que define si el protagonista ha muerto.
+     * @return devuelve un booleano sobre el estado del gato.
+     * @see JuegoScreen#gameOver()
+     */
     @Override
     public boolean gameOver() {
         return super.gameOver();

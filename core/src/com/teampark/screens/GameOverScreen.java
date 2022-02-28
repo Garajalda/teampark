@@ -20,21 +20,47 @@ import com.teampark.Sprites.cats.Cat;
 /**
  * Clase que define la pantalla cuando pierde el personaje
  * @see Screen
+ * @author Gara Jalda / Colegio Vivas
+ * @version 1.0, 2022/01/02
  */
 public class GameOverScreen implements Screen {
-    private Viewport viewport;
-    private Stage stage;
 
-    private MainGame game;
+
+    /**
+     * Define el escenario de la ventana
+     * @see Stage
+     */
+    private final Stage stage;
+
+    /**
+     * Define la raíz del juego donde se cargan los assets.
+     * @see MainGame
+     */
+    private final MainGame game;
+
+    /**
+     * Define el tipo de gato que proviene del contructor
+     * @see Cat
+     */
     Cat.TypeCat gato;
+
+
+    /**
+     * Define el nivel del juego en el que se encuentra actualmente.
+     */
     String level;
-    JuegoScreen screen;
+
+    /**
+     * Constructor de clase que definen los elementos que se ven en pantalla.
+     * @param level
+     * @param game
+     * @param gato
+     */
     public GameOverScreen(String level, MainGame game, Cat.TypeCat gato){
         this.game = game;
         this.gato = gato;
         this.level =level;
-        this.screen = screen;
-        viewport = new FitViewport((float) MainGame.VIEW_WIDTH,MainGame.VIEW_HEIGHT);
+        Viewport viewport = new FitViewport((float) MainGame.VIEW_WIDTH, MainGame.VIEW_HEIGHT);
         stage = new Stage(viewport, ((MainGame)game).batch);
         Label.LabelStyle font = new Label.LabelStyle(new BitmapFont(), Color.WHITE);
 
@@ -53,6 +79,10 @@ public class GameOverScreen implements Screen {
         stage.addActor(table);
     }
 
+
+    /**
+     * @see Screen#show()
+     */
     @Override
     public void show() {
 
@@ -88,26 +118,44 @@ public class GameOverScreen implements Screen {
         }
     }
 
+    /**
+     * @see Screen#resize(int, int)
+     * @param width
+     * @param height
+     */
     @Override
     public void resize(int width, int height) {
 
     }
 
+    /**
+     * @see Screen#pause()
+     */
     @Override
     public void pause() {
 
     }
 
+    /**
+     * @see Screen#resume() ()
+     */
     @Override
     public void resume() {
 
     }
 
+    /**
+     * @see Screen#hide()
+     */
     @Override
     public void hide() {
 
     }
 
+    /**
+     * Método que libera recursos de la escena.
+     * @see Screen#dispose()
+     */
     @Override
     public void dispose() {
         stage.dispose();

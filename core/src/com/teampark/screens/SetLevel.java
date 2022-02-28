@@ -27,20 +27,48 @@ import com.teampark.tools.PreferencesClass;
 
 import java.util.ArrayList;
 
+/**
+ * Esta clase es la pantalla para selecionar el nivel.
+ * @see Screen
+ * @author Gara Jalda / Colegio Vivas
+ * @version 1.0, 2022/02/17
+ */
 public class SetLevel implements Screen {
 
+    /**
+     * Define la raíz del juego donde se cargan los assets.
+     * @see MainGame
+     */
     MainGame game;
+
+    /**
+     * Define el tipo del gato actual
+     * @see Cat
+     */
     Cat.TypeCat gatoElegido;
+
+    /**
+     * Define el escenario de la ventana
+     * @see Stage
+     */
     private final Stage stage;
-    Skin skin;
 
-    boolean pressStartLevel;
-    public boolean pressStartLevel(){
-        return pressStartLevel;
-    }
 
-    Music music;
-    String level;
+    /**
+     * Define la musica que esta sonando
+     */
+    private final Music music;
+
+    /**
+     * Nivel actual del juego.
+     */
+    private String level;
+
+    /**
+     * Constructor que inicializa el selector de niveles con el gato elegido y el nivel
+     * @param game
+     * @param gatoElegido
+     */
     public SetLevel(final MainGame game, final Cat.TypeCat gatoElegido){
         this.game = game;
         this.gatoElegido = gatoElegido;
@@ -55,7 +83,7 @@ public class SetLevel implements Screen {
         System.out.println(PreferencesClass.getCountLevels());
 
         System.out.println(PreferencesClass.getLevelPreferences(1+""));
-        skin= new Skin(Gdx.files.internal("Terra_Mother_UI_Skin/terramotherui/terra-mother-ui.json"));
+        Skin skin = new Skin(Gdx.files.internal("Terra_Mother_UI_Skin/terramotherui/terra-mother-ui.json"));
         final Viewport viewport;
         viewport = new FitViewport((float) MainGame.VIEW_WIDTH,MainGame.VIEW_HEIGHT);
         this.stage = new Stage(viewport, ((MainGame)game).batch);
@@ -70,8 +98,7 @@ public class SetLevel implements Screen {
         table.setFillParent(true);
         table.top();
 
-        ImageTextButton label = new ImageTextButton("Elige el nivel",skin,"default");
-
+        ImageTextButton label = new ImageTextButton("Elige el nivel", skin,"default");
 
         table.row().expandX().center();
         table.add(label).center();
@@ -87,7 +114,7 @@ public class SetLevel implements Screen {
             final SpriteDrawable startGame = new SpriteDrawable(new Sprite(newLevelTexture));
             ImageButton button = new ImageButton(startGame);
             Label.LabelStyle font = new Label.LabelStyle(new BitmapFont(), Color.WHITE);
-            Label nivel = null;
+            Label nivel;
             if(i <= PreferencesClass.getCountLevels()){
                 nivel = new Label(i+"", font);
             }else{
@@ -111,7 +138,7 @@ public class SetLevel implements Screen {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 level = "1-1";
-                pressStartLevel = true;
+
                 game.setScreen(new Level1(level,game, gatoElegido));
                 music.stop();
                 dispose();
@@ -126,7 +153,7 @@ public class SetLevel implements Screen {
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                     level = "1-2";
                     game.setScreen(new Level2(level,game,gatoElegido));
-                    pressStartLevel = true;
+
                     music.stop();
                     dispose();
                     return true;
@@ -146,48 +173,67 @@ public class SetLevel implements Screen {
 
     }
 
+    /**
+     * @see Screen#show()
+     */
     @Override
     public void show() {
 
     }
 
+    /**
+     * Método que inicia el renderizado.
+     * @param delta
+     * @see Screen#render(float)
+     */
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(1.0f, 0.9f, 0.6f, 0.0f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-
         MainGame.multiplexer.addProcessor(stage);
-
-
         stage.draw();
-
     }
 
+    /**
+     * @see Screen#resize(int, int)
+     * @param width
+     * @param height
+     */
     @Override
     public void resize(int width, int height) {
 
     }
 
+    /**
+     * @see Screen#pause()
+     */
     @Override
     public void pause() {
 
     }
 
+    /**
+     * @see Screen#resume()
+     */
     @Override
     public void resume() {
 
     }
 
+    /**
+     * @see Screen#hide()
+     */
     @Override
     public void hide() {
 
     }
 
+    /**
+     * Método que libera recursos de la escena.
+     * @see Screen#dispose()
+     */
     @Override
     public void dispose() {
-
         stage.dispose();
-
     }
 }

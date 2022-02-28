@@ -10,7 +10,6 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -27,26 +26,99 @@ import com.teampark.tools.WorldContactListener;
 /**
  * Clase que define la pantalla del juego, carga los mapas, los personajes, los niveles...
  * @see Screen
+ * @author Gara Jalda / Colegio Vivas
+ * @version 1.0, 2022/02/06
  */
 public class JuegoScreen implements Screen{
 
+    /**
+     * Define la raíz del juego donde se cargan los assets.
+     * @see MainGame
+     */
     protected final MainGame game;
-    protected final InfoScreen info;
-    protected final OrthographicCamera gameCamera;
-    protected final Viewport gamePort;
-    protected TiledMap map;
-    protected OrthogonalTiledMapRenderer renderer;
-    protected final Controllers controlTouch;
-    protected World world;
-    protected Box2DDebugRenderer b2dr;
-    protected Cat cat;
-    protected final TextureAtlas textureAtlas;
-    protected Ascensor ascensor;
-    protected Key key;
-    protected SettingsPlay settings;
-    Cat.TypeCat gato;
-    String level;
 
+    /**
+     * Define la información del nivel y del tiempo que se lleva jugado.
+     * @see InfoScreen
+     */
+    protected final InfoScreen info;
+
+    /**
+     * Define la proyeccion de la camara.
+     * @see OrthographicCamera
+     */
+    protected final OrthographicCamera gameCamera;
+
+    /**
+     * Define la resolución de la pantalla
+     * @see Viewport
+     */
+    protected final Viewport gamePort;
+
+    /**
+     * Carga el mapa del nivel
+     * @see TiledMap
+     */
+    protected TiledMap map;
+
+    /**
+     * Renderiza el mapa
+     * @see OrthogonalTiledMapRenderer
+     */
+    protected OrthogonalTiledMapRenderer renderer;
+
+    /**
+     * Inicia los controles del juego
+     * @see Controllers
+     */
+    protected final Controllers controlTouch;
+
+    /**
+     * Carga el mundo
+     * @see World
+     */
+    protected World world;
+
+    /**
+     * Personaje principal del mundo
+     * @see Cat
+     */
+    protected Cat cat;
+
+    /**
+     * Carga imágenes de una textura del atlas
+     * @see TextureAtlas
+     */
+    protected final TextureAtlas textureAtlas;
+
+    /**
+     * Elemento del juego interactivo
+     * @see Ascensor
+     */
+    protected Ascensor ascensor;
+
+    /**
+     * Elemento del juego que carga una llave para acceder a otro nivel
+     * @see Key
+     */
+    protected Key key;
+
+    /**
+     * Carga el botón de ajustes que aparece en la parte superior de la pantalla del juego.
+     * @see SettingsPlay
+     */
+    protected SettingsPlay settings;
+
+    /**
+     * Define el tipo del gato actual
+     * @see Cat
+     */
+    Cat.TypeCat gato;
+
+    /**
+     * Define el nivel actual del juego
+     */
+    String level;
 
     /**
      * Constructor que define el mapa, los elementos de la ventana.
@@ -57,8 +129,6 @@ public class JuegoScreen implements Screen{
         textureAtlas = new TextureAtlas("Cats.pack");
         world = new World(new Vector2(0, -9.8f), true);
         this.level = level;
-
-
 
         this.game = game;
         this.gato = gato;
@@ -71,12 +141,8 @@ public class JuegoScreen implements Screen{
         controlTouch = new Controllers(game.batch);
         settings = new SettingsPlay(this,level,game,game.batch,gato);
 
-
         //tipo contacto
         world.setContactListener(new WorldContactListener());
-
-
-
 
     }
 
@@ -98,6 +164,9 @@ public class JuegoScreen implements Screen{
         return textureAtlas;
     }
 
+    /**
+     * @see Screen#show()
+     */
     @Override
     public void show() {
 
@@ -108,11 +177,9 @@ public class JuegoScreen implements Screen{
      * Método que define la actualización y movimiento de los diferentes componentes dentro de la pantalla.
      * @param dt
      */
-    //movimiento
     public void update(float dt) {
 
         handleInput(dt);
-
         world.step(1f / 60f, 6, 2);
 
         info.update(dt);
@@ -123,8 +190,6 @@ public class JuegoScreen implements Screen{
 
         gameCamera.update();
         renderer.setView(gameCamera);
-
-
     }
 
 
@@ -132,13 +197,10 @@ public class JuegoScreen implements Screen{
      * Método que define los eventos de movimiento del personaje.
      * @param dt
      */
-    //eventos de teclado para el personaje
     protected void handleInput(float dt) {
-
             boolean salta = false;
             boolean camina = false;
             final float fastAreaMin = Gdx.graphics.getWidth() / 2;
-
 
             for (int j = 0; j < 20; j++) {
                 if (Gdx.input.isTouched(j)) {
@@ -148,15 +210,11 @@ public class JuegoScreen implements Screen{
                 }
             }
 
-
             if (!cat.isDead() && !settings.tableVisible) {
-
                 if (camina) {
-
-
-                        if (cat.b2body.getLinearVelocity().x >= -0.8f && cat.b2body.getLinearVelocity().x <= 0.8f) {
-                            cat.b2body.applyLinearImpulse(new Vector2(controlTouch.getKnobPercentX() * 0.05f, 0), cat.b2body.getWorldCenter(), true);
-                        }
+                    if (cat.b2body.getLinearVelocity().x >= -0.8f && cat.b2body.getLinearVelocity().x <= 0.8f) {
+                        cat.b2body.applyLinearImpulse(new Vector2(controlTouch.getKnobPercentX() * 0.05f, 0), cat.b2body.getWorldCenter(), true);
+                    }
                 }
                 if (salta && !settings.isPressedSettings()) {
 
@@ -165,8 +223,6 @@ public class JuegoScreen implements Screen{
                             cat.b2body.applyLinearImpulse(new Vector2(0, 2.8f), cat.b2body.getWorldCenter(), true);
                         }
                     }
-
-
                 }
                 //mover personaje PC pruebas
                 if (Gdx.input.isKeyJustPressed(Input.Keys.UP))
@@ -182,26 +238,19 @@ public class JuegoScreen implements Screen{
         }
 
 
-
-
     /**
      * Renderiza la pantalla JuegoScreen.
      * @param delta
+     * @see Screen#render(float)
      */
     @Override
     public void render(float delta) {
-
         update(delta);
-
 
         Gdx.gl.glClearColor(1.0f, 0.9f, 0.6f, 0.0f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         renderer.render();
-
-
-        b2dr.render(world, gameCamera.combined);
-
 
         if (gameOver()) {
             Music music = MainGame.managerSongs.get("audio/music/MusicPlatform.mp3", Music.class);
@@ -210,8 +259,6 @@ public class JuegoScreen implements Screen{
             game.setScreen(new GameOverScreen(level,game, gato));
             this.dispose();
         }
-
-
 
     }
 
@@ -234,32 +281,47 @@ public class JuegoScreen implements Screen{
         return map;
     }
 
+    /**
+     * Método que devuelve el mundo común a todos los niveles
+     * @return Un objeto de tipo mundo con esas características.
+     */
     public World getWorld() {
         return world;
     }
 
+    /**
+     * @see Screen#pause()
+     */
     @Override
     public void pause() {
 
     }
 
+    /**
+     * @see Screen#resume()
+     */
     @Override
     public void resume() {
 
     }
 
+    /**
+     * @see Screen#hide()
+     */
     @Override
     public void hide() {
 
     }
 
+    /**
+     * Método que libera recursos.
+     * @see Screen#dispose()
+     */
     @Override
     public void dispose() {
-
         map.dispose();
         renderer.dispose();
         world.dispose();
-        b2dr.dispose();
         info.dispose();
         controlTouch.dispose();
     }

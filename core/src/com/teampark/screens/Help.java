@@ -1,6 +1,5 @@
 package com.teampark.screens;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
@@ -23,31 +22,63 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.teampark.MainGame;
 import com.teampark.tools.PreferencesClass;
 
+/**
+ * Esta clase es la pantalla de ayuda.
+ * @see Screen
+ * @author Gara Jalda / Colegio Vivas
+ * @version 1.0, 2022/02/27
+ */
 public class Help implements Screen {
 
+    /**
+     * Define el escenario de la ventana
+     * @see Stage
+     */
     private final Stage stage;
-    final Game game;
-    Sprite tutoCaminar;
-    Sprite tutoSalto;
-    Music music;
+
+    /**
+     * Define la raíz del juego donde se cargan los assets.
+     * @see MainGame
+     */
+    final MainGame game;
+
+    /**
+     * Temporizador del render
+     */
     private float timeCount;
 
-    SpriteBatch batch;
-    private Array<Sprite> tutoriales;
+    /**
+     * Imagen renderizada
+     * @see SpriteBatch
+     */
+    private final SpriteBatch batch;
 
+    /**
+     * Lista de diferentes sprites de ayuda.
+     */
+    private final Array<Sprite> tutoriales;
+
+    private int cont;
+
+    /**
+     * Constructor que inicia los elementos de la ventana de ayuda y salir de la pantalla, así como diferentes eventos.
+     * @param game
+     * @see MainGame
+     */
     public Help(final MainGame game){
 
         final Viewport viewport;
         viewport = new FitViewport((float) MainGame.VIEW_WIDTH,MainGame.VIEW_HEIGHT);
-        this.batch = ((MainGame)game).batch;
+        this.batch = game.batch;
         this.game = game;
+        this.cont = 0;
 
         tutoriales = new Array<>();
         timeCount = 0;
         stage = new Stage(viewport, batch);
         Label.LabelStyle font = new Label.LabelStyle(new BitmapFont(), Color.WHITE);
 
-        music = MainGame.managerSongs.get("audio/music/aeon.ogg", Music.class);
+        Music music = MainGame.managerSongs.get("audio/music/aeon.ogg", Music.class);
         music.setLooping(true);
 
         if (PreferencesClass.getSoundPreferences("sound")) {
@@ -67,13 +98,12 @@ public class Help implements Screen {
         Label label = new Label("Ayuda", font);
 
 
-
-        tutoCaminar = new Sprite(new TextureRegion(new Texture("tutorial/pictureTutorialCaminar.png")));
+        Sprite tutoCaminar = new Sprite(new TextureRegion(new Texture("tutorial/pictureTutorialCaminar.png")));
         tutoCaminar.setSize(300,150);
         tutoCaminar.setPosition(50,30);
 
 
-        tutoSalto = new Sprite(new TextureRegion(new Texture("tutorial/pictureTutoSalto.png")));
+        Sprite tutoSalto = new Sprite(new TextureRegion(new Texture("tutorial/pictureTutoSalto.png")));
         tutoSalto.setSize(300,150);
         tutoSalto.setPosition(50,30);
 
@@ -97,15 +127,22 @@ public class Help implements Screen {
             }
         });
 
-
     }
 
+    /**
+     * @see Screen#show()
+     */
     @Override
     public void show() {
 
     }
 
-    int cont = 0;
+
+    /**
+     * Método que inicia el renderizado e inicia el contador para ir pasando de imagenes.
+     * @param delta
+     * @see Screen#render(float)
+     */
     @Override
     public void render(float delta) {
         timeCount += delta;
@@ -130,26 +167,44 @@ public class Help implements Screen {
 
     }
 
+    /**
+     * @see Screen#resize(int, int)
+     * @param width
+     * @param height
+     */
     @Override
     public void resize(int width, int height) {
 
     }
 
+    /**
+     * @see Screen#pause()
+     */
     @Override
     public void pause() {
 
     }
 
+    /**
+     * @see Screen#resume()
+     */
     @Override
     public void resume() {
 
     }
 
+    /**
+     * @see Screen#hide()
+     */
     @Override
     public void hide() {
 
     }
 
+    /**
+     * Método que libera recursos de la escena.
+     * @see Screen#dispose()
+     */
     @Override
     public void dispose() {
         stage.dispose();
