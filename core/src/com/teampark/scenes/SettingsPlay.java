@@ -17,11 +17,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Disposable;
+import com.badlogic.gdx.utils.StringBuilder;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.teampark.MainGame;
 import com.teampark.Sprites.cats.Cat;
+import com.teampark.screens.Creditos;
 import com.teampark.screens.JuegoScreen;
+import com.teampark.screens.Records;
 import com.teampark.screens.SetLevel;
 import com.teampark.tools.PreferencesClass;
 
@@ -44,6 +47,7 @@ public class SettingsPlay implements Disposable{
     public boolean tableVisible;
     Music musicplatform;
     Music musicplatform2;
+    Music musicInicio;
     public SettingsPlay(final JuegoScreen juegoScreen, final String level, final MainGame game, final SpriteBatch sb, final Cat.TypeCat gatoElegido){
 
         viewport = new FitViewport(MainGame.VIEW_WIDTH, MainGame.VIEW_HEIGHT, new OrthographicCamera());
@@ -59,12 +63,11 @@ public class SettingsPlay implements Disposable{
 
         musicplatform = MainGame.managerSongs.get("audio/music/MusicPlatform.mp3");
         musicplatform2 = MainGame.managerSongs.get("audio/music/MusicPlatform2.mp3");
+        musicInicio = MainGame.managerSongs.get("audio/music/aeon.ogg");
+
         soundBoolean = PreferencesClass.getSoundPreferences("sound");
         music = MainGame.managerSongs.get("audio/music/aeon.ogg", Music.class);
         music.setLooping(true);
-
-
-
 
         Gdx.input.setInputProcessor(MainGame.multiplexer);
         //Image settingImg = new Image(new Texture("configuraciones.png"));
@@ -72,9 +75,9 @@ public class SettingsPlay implements Disposable{
         final Skin skin = new Skin(Gdx.files.internal("Terra_Mother_UI_Skin/terramotherui/terra-mother-ui.json"));
 
         final ImageButton btnSetting = new ImageButton(drawable);
-        final ImageTextButton text = new ImageTextButton("Records       ", skin,"default");
-        final ImageTextButton text2 = new ImageTextButton("Salir                          ", skin,"default");
-        final ImageTextButton text3 = new ImageTextButton("Ver creditos              ", skin,"default");
+        final ImageTextButton records = new ImageTextButton("Records       ", skin,"default");
+        final ImageTextButton salir = new ImageTextButton("Salir                          ", skin,"default");
+        final ImageTextButton creditos = new ImageTextButton("Ver creditos              ", skin,"default");
         sound = new ImageTextButton(PreferencesClass.getSoundPreferences("sound") ? "Sonido: On" : "Sonido: Off",skin,"default");
 
 
@@ -83,11 +86,15 @@ public class SettingsPlay implements Disposable{
         table1.background(skin.getDrawable("window"));
         table1.setPosition(113, 70);
         table1.row();
-        table1.add(text).left();
+        table1.add(records).left();
         table1.row();
-        table1.add(text2).left();
-        table1.row();
-        table1.add(text3).left();
+
+        if(juegoScreen != null){
+            table1.add(salir).left();
+            table1.row();
+        }
+        table1.add(creditos).left();
+
         table1.row();
         table1.add(sound).left();
         table1.setVisible(false);
@@ -95,7 +102,7 @@ public class SettingsPlay implements Disposable{
 
 
 
-        text2.addListener(new InputListener(){
+        salir.addListener(new InputListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 //table1.setVisible(false);
@@ -106,10 +113,14 @@ public class SettingsPlay implements Disposable{
                 Music musicplatform2 = MainGame.managerSongs.get("audio/music/MusicPlatform2.mp3");
                 musicplatform2.stop();
 
-                music.play();
+                if (PreferencesClass.getSoundPreferences("sound")) {
+                    music.play();
+                } else {
+                    music.stop();
+                }
 
                 juegoScreen.dispose();
-                dispose();
+
                 return true;
             }
         });
@@ -140,19 +151,20 @@ public class SettingsPlay implements Disposable{
                 soundBoolean = soundBoolean ? false : true;
                 PreferencesClass.setSoundPreferences("sound",soundBoolean);
                 sound.setText(PreferencesClass.getSoundPreferences("sound") ? "Sonido: On" : "Sonido: Off");
-                boolean preferencesSound = PreferencesClass.getSoundPreferences("sound");
-
                 Music mu;
                 if(level == "1-1"){
                     mu = musicplatform;
-                }else{
+                }else if(level == "1-2"){
                     mu = musicplatform2;
+                }else{
+                    mu = musicInicio;
                 }
-                if (preferencesSound) {
+                if (PreferencesClass.getSoundPreferences("sound")) {
                     mu.play();
                 } else {
                     mu.stop();
                 }
+
 
 
                 return true;
@@ -164,6 +176,23 @@ public class SettingsPlay implements Disposable{
             }
         });
 
+        creditos.addListener(new InputListener(){
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                game.setScreen(new Creditos(game,juegoScreen,gatoElegido));
+                juegoScreen.dispose();
+                return super.touchDown(event, x, y, pointer, button);
+            }
+        });
+
+        records.addListener(new InputListener(){
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                game.setScreen(new Records(game,juegoScreen,gatoElegido,new StringBuilder("")));
+                juegoScreen.dispose();
+                return super.touchDown(event, x, y, pointer, button);
+            }
+        });
         table.add(btnSetting).size(btnSetting.getWidth(),btnSetting.getHeight());
         stage.addActor(table);
 

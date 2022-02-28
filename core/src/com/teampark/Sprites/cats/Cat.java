@@ -183,11 +183,12 @@ public class Cat extends Sprite {
         b2body = world.createBody(bdef);
 
         FixtureDef fdef = new FixtureDef();
+
         PolygonShape shape = new PolygonShape();
 
         shape.setAsBox((float)13/MainGame.PPM,(float) 9/MainGame.PPM);
         fdef.filter.categoryBits = MainGame.CAT_BIT;
-        fdef.filter.maskBits = MainGame.GROUND_BIT | MainGame.BOTON_BIT | MainGame.CAT_BIT | MainGame.ASCENSOR_BIT | MainGame.KEY_BIT |MainGame.PUERTA_BIT;
+        fdef.filter.maskBits = MainGame.GROUND_BIT | MainGame.BOTON_BIT | MainGame.CAT_BIT | MainGame.ASCENSOR_BIT | MainGame.KEY_BIT |MainGame.PUERTA_BIT | MainGame.CUBO_BIT;
 
         fdef.shape = shape;
 

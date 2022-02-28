@@ -13,6 +13,7 @@ import com.teampark.items.Key;
 public class WorldContactListener implements ContactListener {
     static public boolean catNotTouch= false;
     static public boolean catTouchAscensor = false;
+    static public boolean catTouchCubo = false;
     boolean llaveCogida = false;
 
     @Override
@@ -62,12 +63,15 @@ public class WorldContactListener implements ContactListener {
                 if(fixA.getFilterData().categoryBits== MainGame.CAT_BIT) {
                     catTouchAscensor = true;
                     catNotTouch = false;
+
                     System.out.println("toca ascensor");
                 }
-            case MainGame.GROUND_BIT | MainGame.CAT_BIT:
+            case MainGame.CUBO_BIT | MainGame.CAT_BIT:
                 if(fixA.getFilterData().categoryBits== MainGame.CAT_BIT) {
 
-                    //System.out.println("toca suelo");
+                    catNotTouch = false;
+                    catTouchCubo = true;
+                    System.out.println("toca cubo");
                 }
 
         }
@@ -77,6 +81,7 @@ public class WorldContactListener implements ContactListener {
     public void endContact(Contact contact) {
         catNotTouch = true;
         catTouchAscensor = false;
+        catTouchCubo = false;
 
     }
 

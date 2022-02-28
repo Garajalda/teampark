@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
@@ -24,6 +25,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import com.teampark.MainGame;
 import com.teampark.Sprites.cats.Cat;
+import com.teampark.tools.PreferencesClass;
 
 import java.util.ArrayList;
 
@@ -45,6 +47,8 @@ public class SetPersonaje implements Screen{
     Music music;
     Sprite cat;
     private int i = 0;
+    boolean soundBoolean;
+    final ImageTextButton sound;
 
 
     /**
@@ -64,6 +68,7 @@ public class SetPersonaje implements Screen{
     }
 
     boolean pressStartGameButton;
+    Music musicInicio;
 
     /**
      * Método que indica si se ha presionado el botón para iniciar la partida.
@@ -83,6 +88,9 @@ public class SetPersonaje implements Screen{
         final Viewport viewport;
         viewport = new FitViewport((float) MainGame.VIEW_WIDTH,MainGame.VIEW_HEIGHT);
 
+
+
+
         this.catImages = new Array<>();
         catImages.add(tipoGato(Cat.TypeCat.BROWN));
         catImages.add(tipoGato(Cat.TypeCat.BLACK));
@@ -90,8 +98,20 @@ public class SetPersonaje implements Screen{
 
         this.stage = new Stage(viewport, ((MainGame)game).batch);
         gatoElegido = Cat.TypeCat.BLACK;
+
+        soundBoolean = PreferencesClass.getSoundPreferences("sound");
         music = MainGame.managerSongs.get("audio/music/aeon.ogg", Music.class);
         music.setLooping(true);
+
+
+
+        final Skin skin = new Skin(Gdx.files.internal("Terra_Mother_UI_Skin/terramotherui/terra-mother-ui.json"));
+
+        final ImageTextButton records = new ImageTextButton("Records", skin,"default");
+        final ImageTextButton salir = new ImageTextButton("Salir", skin,"default");
+        final ImageTextButton creditos = new ImageTextButton("Ver creditos", skin,"default");
+        final ImageTextButton help = new ImageTextButton("Ayuda", skin,"default");
+        sound = new ImageTextButton(PreferencesClass.getSoundPreferences("sound") ? "Sonido: On" : "Sonido: Off",skin,"default");
 
 
         Table table = new Table();
@@ -101,7 +121,19 @@ public class SetPersonaje implements Screen{
         TextField label = new TextField("  Elige el personaje",skin);
 
         table.row().expandX().center();
-        table.add(label).center();
+        table.add(label).padLeft(59).padTop(10);
+        table.row().expandX().right();
+        table.add(records).left();
+        table.row().expandX().right();
+        table.add(salir).left();
+        table.row().right();
+        table.add(sound).left();
+        table.row().right();
+        table.add(help).left();
+        table.row().right();
+        table.add(creditos).left();
+
+
         //boton derecha
         TextureRegion buttonRight = new TextureRegion(new Texture("controllers/UI_orange_buttons_pressed_3.png"),32,0,16,16);
         Sprite dR = new Sprite(buttonRight);
@@ -118,7 +150,7 @@ public class SetPersonaje implements Screen{
         cat = new Sprite();
         gatoElegido = Cat.TypeCat.BROWN;
         cat = catImages.get(i);
-        cat.setPosition(180,130);
+        cat.setPosition(211,120);
         buttonLeftImg.setPosition(cat.getX()-15,cat.getY()+5);
         buttonRightImg.setPosition(cat.getX()+32,cat.getY()+5);
 
@@ -126,7 +158,7 @@ public class SetPersonaje implements Screen{
         final SpriteDrawable startGame = new SpriteDrawable(new Sprite(newGameTexture));
         ImageButton button = new ImageButton(startGame);
         button.setSize(100,100);
-        button.setPosition(147,30);
+        button.setPosition(176,23);
         stage.addActor(table);
         stage.addActor(buttonLeftImg);
 
@@ -136,6 +168,23 @@ public class SetPersonaje implements Screen{
         Gdx.input.setInputProcessor(stage);
 
 
+        creditos.addListener(new InputListener(){
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                game.setScreen(new Creditos(game,SetPersonaje.this,gatoElegido));
+                dispose();
+                return true;
+            }
+        });
+
+        records.addListener(new InputListener(){
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                game.setScreen(new Records(game, SetPersonaje.this));
+                dispose();
+                return true;
+            }
+        });
         button.addListener(new InputListener(){
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
@@ -207,6 +256,25 @@ public class SetPersonaje implements Screen{
 
             }
         });
+
+        sound.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                soundBoolean = soundBoolean ? false : true;
+                PreferencesClass.setSoundPreferences("sound", soundBoolean);
+                sound.setText(PreferencesClass.getSoundPreferences("sound") ? "Sonido: On" : "Sonido: Off");
+
+                if (PreferencesClass.getSoundPreferences("sound")) {
+                    music.play();
+                } else {
+                    music.stop();
+                }
+
+
+                return true;
+            }
+        });
+
     }
 
     @Override
@@ -228,7 +296,7 @@ public class SetPersonaje implements Screen{
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         update(delta);
         game.batch.begin();
-        game.batch.draw(catImages.get(i),180,130);
+        game.batch.draw(catImages.get(i),211,120);
         this.cat = tipoGato(gatoElegido);
         game.batch.end();
         stage.act();

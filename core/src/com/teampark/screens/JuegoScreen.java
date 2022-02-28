@@ -115,6 +115,7 @@ public class JuegoScreen implements Screen{
 
         world.step(1f / 60f, 6, 2);
 
+        info.update(dt);
 
         if (cat.estadoActual != Cat.State.DEAD) {
             gameCamera.position.x = cat.b2body.getPosition().x;
@@ -155,15 +156,13 @@ public class JuegoScreen implements Screen{
 
                         if (cat.b2body.getLinearVelocity().x >= -0.8f && cat.b2body.getLinearVelocity().x <= 0.8f) {
                             cat.b2body.applyLinearImpulse(new Vector2(controlTouch.getKnobPercentX() * 0.05f, 0), cat.b2body.getWorldCenter(), true);
-                            //game.fbic.writeCat(gato.ordinal(), cats.get(gato.ordinal()).b2body.getLinearVelocity().x, cats.get(gato.ordinal()).b2body.getLinearVelocity().x);
-
                         }
                 }
                 if (salta && !settings.isPressedSettings()) {
 
                     if(Gdx.input.justTouched()){
                         if ((!WorldContactListener.catNotTouch || cat.b2body.getLinearVelocity().y== 0)){
-                            cat.b2body.applyLinearImpulse(new Vector2(0, 2.5f), cat.b2body.getWorldCenter(), true);
+                            cat.b2body.applyLinearImpulse(new Vector2(0, 2.8f), cat.b2body.getWorldCenter(), true);
                         }
                     }
 
@@ -211,6 +210,7 @@ public class JuegoScreen implements Screen{
             game.setScreen(new GameOverScreen(level,game, gato));
             this.dispose();
         }
+
 
 
     }

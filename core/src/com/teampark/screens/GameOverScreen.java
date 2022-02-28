@@ -28,10 +28,12 @@ public class GameOverScreen implements Screen {
     private MainGame game;
     Cat.TypeCat gato;
     String level;
+    JuegoScreen screen;
     public GameOverScreen(String level, MainGame game, Cat.TypeCat gato){
         this.game = game;
         this.gato = gato;
         this.level =level;
+        this.screen = screen;
         viewport = new FitViewport((float) MainGame.VIEW_WIDTH,MainGame.VIEW_HEIGHT);
         stage = new Stage(viewport, ((MainGame)game).batch);
         Label.LabelStyle font = new Label.LabelStyle(new BitmapFont(), Color.WHITE);

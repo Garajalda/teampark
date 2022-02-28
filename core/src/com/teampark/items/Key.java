@@ -3,7 +3,6 @@ package com.teampark.items;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
@@ -16,13 +15,9 @@ import com.teampark.Sprites.cats.Cat;
 import com.teampark.screens.JuegoScreen;
 
 public class Key extends Sprite {
-    TextureRegion textureRegion;
     public Body body;
     private World world;
-    private boolean toDestroy;
     private Fixture fixture;
-    private boolean recomponer;
-    private Cat cat;
     private boolean keyUp;
     public Key(JuegoScreen screen,float x, float y) {
         super(new Texture("key.png"));
@@ -56,11 +51,8 @@ public class Key extends Sprite {
     private boolean mooveON = false;
     public void keySigue(){
         setCategoryFilter(MainGame.DESTROYED_BIT);
-
         keyUp = true;
         mooveON = true;
-
-        //        setPosition(cat.getX(),cat.getY());
     }
 
     public void setCategoryFilter(short filterBit){

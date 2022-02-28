@@ -27,6 +27,7 @@ public class MainGame extends Game{
 	public static final short DESTROYED_BIT = 16;
 	public static final short ASCENSOR_BIT = 32;
 	public static final short PUERTA_BIT = 64;
+	public static final short CUBO_BIT = 128;
 	public SpriteBatch batch;
 	public static InputMultiplexer multiplexer = new InputMultiplexer();
 	public static AssetManager managerSongs;
@@ -46,7 +47,7 @@ public class MainGame extends Game{
 		managerSongs.load("audio/music/MusicPlatform2.mp3",Music.class);
 		managerSongs.finishLoading();
 
-		setScreen(new GameStart(this));
+		setScreen(new GameStart(this,batch));
 
 	}
 

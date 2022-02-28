@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -18,6 +19,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.teampark.MainGame;
+import com.teampark.scenes.SettingsPlay;
+import com.teampark.tools.PreferencesClass;
 
 /**
  * Esta clase inicia la pantalla de Start del juego.
@@ -27,20 +30,24 @@ import com.teampark.MainGame;
 public class GameStart implements Screen {
 
     private final Stage stage;
-    private final Game game;
+    final Game game;
     Image fondoImage;
     Music music;
+    SettingsPlay settings;
 
+    SpriteBatch batch;
 
     /**
      * Constructor para iniciar la ventana.
      * @param game
      *
      */
-    public GameStart(MainGame game){
+    public GameStart(MainGame game, SpriteBatch batch){
 
         final Viewport viewport;
         viewport = new FitViewport((float) MainGame.VIEW_WIDTH,MainGame.VIEW_HEIGHT);
+        this.batch = batch;
+
         stage = new Stage(viewport, ((MainGame)game).batch);
         Label.LabelStyle font = new Label.LabelStyle(new BitmapFont(), Color.WHITE);
         this.game = game;
@@ -48,7 +55,12 @@ public class GameStart implements Screen {
         music = MainGame.managerSongs.get("audio/music/aeon.ogg", Music.class);
         music.setLooping(true);
 
+        if (PreferencesClass.getSoundPreferences("sound")) {
             music.play();
+        } else {
+            music.stop();
+        }
+
 
 
         Table table = new Table();
@@ -61,8 +73,13 @@ public class GameStart implements Screen {
         table.add(label).expandX().padLeft(100).padRight(50);
         table.add(fondoImage).expandX();
 
+
         table.row();
         stage.addActor(table);
+
+
+
+
 
     }
 
@@ -80,6 +97,7 @@ public class GameStart implements Screen {
     @Override
     public void render(float delta) {
 
+
         float gyroZ = Gdx.input.getGyroscopeZ();
         if(Gdx.input.justTouched()){
 
@@ -96,6 +114,9 @@ public class GameStart implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act();
         stage.draw();
+
+
+
     }
 
     @Override

@@ -7,8 +7,12 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.teampark.MainGame;
+import com.teampark.Sprites.Cubo;
+import com.teampark.Sprites.Puerta;
 import com.teampark.Sprites.cats.Cat;
+import com.teampark.items.Key;
 import com.teampark.tools.CreadorDeMundo;
+import com.teampark.tools.PreferencesClass;
 import com.teampark.tools.WorldContactListener;
 
 public class Level2 extends JuegoScreen{
@@ -20,16 +24,23 @@ public class Level2 extends JuegoScreen{
      * @param gato
      */
     Music music;
-    public Level2(String level, MainGame game, Cat.TypeCat gato) {
-        super(level, game, gato);
+    CreadorDeMundo creadorDeMundo;
+    Cat.TypeCat gatoElegido;
+    public Level2(String level, MainGame game, Cat.TypeCat gatoElegido) {
+        super(level, game, gatoElegido);
         TmxMapLoader mapLoader = new TmxMapLoader();
+        this.gatoElegido = gatoElegido;
         map = mapLoader.load("lvl2.tmx");
 
+        //Texto = se paciente, los cubos de hielo son muy resvaladizos y entre todos pesan demasiado para el pobre gatito.
+
+        this.music  = MainGame.managerSongs.get("audio/music/MusicPlatform2.mp3");
         this.music  = MainGame.managerSongs.get("audio/music/MusicPlatform2.mp3");
         music.setLooping(true);
-        music.play();
 
-
+        if(PreferencesClass.getSoundPreferences("sound")){
+            music.play();
+        }
         //unidades de escala
         renderer = new OrthogonalTiledMapRenderer(map, (float) 1 / MainGame.PPM);
         //posicion de camara con relacion y aspecto del mundo
@@ -38,13 +49,14 @@ public class Level2 extends JuegoScreen{
         //debug
         b2dr = new Box2DDebugRenderer();
         //creando los objetos del mundo
-        new CreadorDeMundo(this);
+        creadorDeMundo = new CreadorDeMundo(this);
+
 
         //tipo contacto
         world.setContactListener(new WorldContactListener());
 
-
-        cat = new Cat(this, gato,50,40);
+        cat = new Cat(this, gatoElegido,50,40);
+        key = new Key(this,12.8f, (float) 160 / MainGame.PPM);
 
     }
 
@@ -61,8 +73,7 @@ public class Level2 extends JuegoScreen{
     @Override
     public void update(float dt) {
         super.update(dt);
-        cat.update(dt);
-
+        cat.update(dt); key.update(dt,cat);
     }
 
     @Override
@@ -74,25 +85,37 @@ public class Level2 extends JuegoScreen{
         renderer.render();
         b2dr.render(world, gameCamera.combined);
         //matriz de proyeccion
+
+        game.batch.setProjectionMatrix(gameCamera.combined);
+        game.batch.begin();
+        cat.draw(game.batch);
+        key.draw(game.batch);
+
+        for (Cubo c: creadorDeMundo.getCubos()) {
+            c.draw(game.batch);
+            c.update(delta);
+
+        }
+        game.batch.end();
+
         game.batch.setProjectionMatrix(info.stage.getCamera().combined);
         info.stage.draw();
 
         game.batch.setProjectionMatrix(controlTouch.stage.getCamera().combined);
         controlTouch.stage.draw();
 
-        game.batch.setProjectionMatrix(gameCamera.combined);
-        game.batch.begin();
-
-        cat.draw(game.batch);
-        game.batch.end();
-
         game.batch.setProjectionMatrix(settings.stage.getCamera().combined);
         settings.stage.draw();
 
 
-        if (gameOver()) {
-            game.setScreen(new GameOverScreen(level,game, gato));
+        if(Puerta.isNextLevel()){
+            //level = "1-3";
+            //PreferencesClass.setLevelPreferences(3+"",level);
+            game.setScreen(new Records(game,null,gatoElegido, info.getTiempoTotal()));
+            Puerta.setNextLevel(false);
+            music.stop();
             dispose();
+
         }
     }
 
@@ -104,4 +127,8 @@ public class Level2 extends JuegoScreen{
         settings.dispose();
     }
 
+    @Override
+    public boolean gameOver() {
+        return super.gameOver();
+    }
 }
