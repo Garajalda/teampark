@@ -8,9 +8,11 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -59,9 +61,12 @@ public class SetLevel implements Screen {
         this.stage = new Stage(viewport, ((MainGame)game).batch);
 
 
-
+        TextureRegion buttonSalirT = new TextureRegion(new Texture("controllers/UI_orange_buttons_pressed_3.png"),16,48,16,16);
+        Sprite dR = new Sprite(buttonSalirT);
+        Image buttonSalir = new Image(dR);
 
         Table table = new Table();
+        table.debug();
         table.setFillParent(true);
         table.top();
 
@@ -70,6 +75,7 @@ public class SetLevel implements Screen {
 
         table.row().expandX().center();
         table.add(label).center();
+        table.add(buttonSalir).right();
         stage.addActor(table);
 
         ArrayList<ImageButton> buttons = new ArrayList<>();
@@ -127,6 +133,15 @@ public class SetLevel implements Screen {
                 }
             });
         }
+
+        buttonSalir.addListener(new InputListener(){
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                game.setScreen(new SetPersonaje(game));
+                dispose();
+                return super.touchDown(event, x, y, pointer, button);
+            }
+        });
 
 
     }

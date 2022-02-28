@@ -167,6 +167,14 @@ public class SetPersonaje implements Screen{
 
         Gdx.input.setInputProcessor(stage);
 
+        help.addListener(new InputListener(){
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                game.setScreen(new Help(game));
+                dispose();
+                return true;
+            }
+        });
 
         creditos.addListener(new InputListener(){
             @Override
@@ -194,9 +202,8 @@ public class SetPersonaje implements Screen{
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 
-
-                pressStartGameButton = true;
-
+                game.setScreen(new SetLevel(game, gatoElegido));
+                dispose();
 
                 return true;
             }
@@ -301,12 +308,7 @@ public class SetPersonaje implements Screen{
         game.batch.end();
         stage.act();
         stage.draw();
-        if(getPressStartGameButton()){
 
-            //game.setScreen(new JuegoScreen(game, gatoElegido));
-            game.setScreen(new SetLevel(game, gatoElegido));
-            dispose();
-        }
 
     }
 
