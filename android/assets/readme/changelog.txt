@@ -1,0 +1,99 @@
+# Changelog
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [Unreleased]
+## [1.0.0] - 2021-01-26
+### Added 
+- Creación del mapa nivel 1
+
+## [1.0.0] - 2021-01-30
+### Added
+- Pantalla de juego como primer nivel
+- Creación del personaje para el juego
+- Creación del mundo y recopilación de objetos del mapa.
+## [1.0.0] - 2021-02-01
+### Added 
+- Pantalla de perder en el juego
+
+## [1.0.0] - 2021-02-06
+### Added 
+- Pantalla de inicio
+
+## [1.0.0] - 2021-02-08
+### Added 
+- Información de texto para la pantalla de juego
+
+## [1.0.0] - 2021-02-10
+### Added
+- Creación de objetos interactivos
+- Creación del botón para el nivel 1
+
+## [1.0.0] - 2021-02-13
+### Added
+- Creación del ascensor para el nivel 1
+
+
+## [1.0.0] - 2021-02-15
+### Added
+- Creación de servidor para multijugador
+- Creación de la llave
+- Implementación de musica en la escena de la pantalla de inicio
+
+## [1.0.0] - 2021-02-17
+### Added
+- Pantalla de selección de jugador
+
+## [1.0.0] - 2021-02-20
+### Added
+- Objeto interactivo de la puerta
+- Creación del nivel 1 y nivel 2
+- Creación de ajustes para los niveles de juego
+
+
+## [1.0.0] - 2021-02-21
+### Added
+- Creación del mapa nivel 2
+
+## [1.0.0] - 2021-02-22
+### Added
+- Creación del selector de nivel
+- Implementación de SharedPreferences
+- Creación de los botones para elegir el nivel
+- Implementación de la musica para nivel 2 y nivel 1
+
+## [1.0.0] - 2021-02-23
+### Added
+- Creación de los créditos
+- Creación de la tabla de records
+ 
+## [1.0.0] - 2021-02-26
+### Added
+- Implementar a la tabla de records que se pueda añadir un record al finalizar el nivel 2
+- Implementación de el contador para las pantallas de los niveles
+
+## [1.0.0] - 2021-02-27
+### Added
+- Creación de ajustes en el selector de nivel
+
+## [1.0.0] - 2021-02-28
+### Added
+- Agregar vibrador
+- Implementar opción de ayuda para el usuario
+
+## [1.0.0] - 2021-02-29
+### Added
+- implementar opción de deshabilitar o habilitar vibrador en el menú de seleccionar jugador
+
+### Changed
+- Mejoras de las físicas del ascensor.
+- Mejoras del contacto entre la física del cuerpo y el botón
+- Cambios en la distribución de las clases para los niveles
+- Transición mejorada de un nivel a otro
+
+
+### Removed
+- Implementación del sistema multijugador
+

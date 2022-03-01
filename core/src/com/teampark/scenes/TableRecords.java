@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -20,32 +19,41 @@ import com.badlogic.gdx.utils.StringBuilder;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.teampark.MainGame;
-import com.teampark.Sprites.cats.Cat;
 import com.teampark.tools.PreferencesClass;
 
+/**
+ * Esta clase es la pantalla que escribe los records en la tabla.
+ * @author Gara Jalda / Colegio Vivas
+ * @version 1.0
+ */
 public class TableRecords implements Disposable {
 
-    private Viewport viewport;
+    /**
+     * Define el escenario de la ventana
+     * @see Stage
+     */
     public Stage stage;
-
-    private BitmapFont font;
-    MainGame game;
-    private Screen screen;
-    private Cat.TypeCat gatoElegido;
+    /**
+     * Tabla para añadir un record
+     * @see Table
+     */
     public Table table1;
 
-    public TableRecords(final MainGame game, final Screen screen, final Cat.TypeCat gatoElegido, final StringBuilder tiempoTotal, final SpriteBatch sb) {
-        viewport = new FitViewport(MainGame.VIEW_WIDTH, MainGame.VIEW_HEIGHT, new OrthographicCamera());
+    /**
+     * Constructor de clase que define el nombre a agregar y el tiempo que ha durado la partida
+     * @param screen
+     * @param tiempoTotal
+     * @param sb
+     */
+    public TableRecords(final Screen screen, final StringBuilder tiempoTotal, final SpriteBatch sb) {
+        Viewport viewport = new FitViewport(MainGame.VIEW_WIDTH, MainGame.VIEW_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport,sb);
-        this.game = game;
         Gdx.input.setInputProcessor(MainGame.multiplexer);
-        this.screen = screen;
         this.table1 = new Table();
         table1.setVisible(false);
         if(screen == null){
 
             final Skin skin = new Skin(Gdx.files.internal("Terra_Mother_UI_Skin/terramotherui/terra-mother-ui.json"));
-
             final TextField records = new TextField("Nombre", skin,"default");
 
             TextureRegion txtAgregar = new TextureRegion(new Texture("controllers/UI_grey_buttons_light_pressed_1.png"),0,64,16,16);
@@ -81,6 +89,10 @@ public class TableRecords implements Disposable {
         }
     }
 
+    /**
+     * Método que permite liberar recursos.
+     * @see Disposable#dispose()
+     */
     @Override
     public void dispose() {
         stage.dispose();

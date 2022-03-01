@@ -10,12 +10,33 @@ import com.teampark.Sprites.ObjetosTileInteractivos;
 import com.teampark.Sprites.Puerta;
 import com.teampark.items.Key;
 
+/**
+ * Clase que define el tipo de contacto del mundo
+ * @author Gara Jalda / Colegio Vivas
+ * @version 1.0
+ */
 public class WorldContactListener implements ContactListener {
+    /**
+     * Variable que define cuando el gato no esta tocando un objeto
+     */
     static public boolean catNotTouch= false;
+    /**
+     * Variable que define cuando el gato no está tocando el ascensor
+     */
     static public boolean catTouchAscensor = false;
+    /**
+     * Variable que define cuando el gato esta tocando el cubo
+     */
     static public boolean catTouchCubo = false;
+    /**
+     * Variable que define cuando se ha recogido la llave
+     */
     boolean llaveCogida = false;
 
+    /**
+     * Método que define si se ha mantenido contacto con algún objeto
+     * @param contact
+     */
     @Override
     public void beginContact(Contact contact) {
 
@@ -29,7 +50,7 @@ public class WorldContactListener implements ContactListener {
 
             if (object.getUserData() != null && ObjetosTileInteractivos.class.isAssignableFrom(object.getUserData().getClass())){
                 catNotTouch = false;
-                ((ObjetosTileInteractivos)object.getUserData()).onFootHit();
+                ((ObjetosTileInteractivos)object.getUserData()).contactoFoot();
             }
         }
 
@@ -63,20 +84,21 @@ public class WorldContactListener implements ContactListener {
                 if(fixA.getFilterData().categoryBits== MainGame.CAT_BIT) {
                     catTouchAscensor = true;
                     catNotTouch = false;
-
-                    System.out.println("toca ascensor");
                 }
+                break;
             case MainGame.CUBO_BIT | MainGame.CAT_BIT:
                 if(fixA.getFilterData().categoryBits== MainGame.CAT_BIT) {
-
                     catNotTouch = false;
                     catTouchCubo = true;
-                    System.out.println("toca cubo");
                 }
-
+                break;
         }
     }
 
+    /**
+     * Método que define si ya no hay contacto
+     * @param contact
+     */
     @Override
     public void endContact(Contact contact) {
         catNotTouch = true;

@@ -20,14 +20,23 @@ import com.teampark.tools.WorldContactListener;
  * @see Screen
  * @see JuegoScreen hereda
  * @author Gara Jalda / Colegio Vivas
- * @version 1.0, 2022/02/12
+ * @version 1.0
  */
 public class Level1 extends JuegoScreen{
 
     /**
      * Inicia la música del nivel
      */
-    Music music;
+    private final Music music;
+    /**
+     * Contador del delta
+     */
+    private float timeCount;
+    /**
+     * Contador de segundos
+     */
+    private Integer countSegundos;
+
 
     /**
      * Constructor que define el mapa, los elementos de la ventana.
@@ -42,6 +51,9 @@ public class Level1 extends JuegoScreen{
         map = mapLoader.load("lvl1.tmx");
         this.music = MainGame.managerSongs.get("audio/music/MusicPlatform.mp3");
         music.setLooping(true);
+
+        countSegundos = 0;
+
         if(PreferencesClass.getSoundPreferences("sound")){
             music.play();
         }
@@ -73,8 +85,9 @@ public class Level1 extends JuegoScreen{
      */
     @Override
     public void render(float delta) {
-
         super.render(delta);
+
+
 
         Gdx.gl.glClearColor(1.0f, 0.9f, 0.6f, 0.0f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -100,16 +113,19 @@ public class Level1 extends JuegoScreen{
         game.batch.setProjectionMatrix(settings.stage.getCamera().combined);
         settings.stage.draw();
 
+        timeCount += delta;
 
-        if(Puerta.isNextLevel()){
-            level = "1-2";
-            PreferencesClass.setLevelPreferences(2+"",level);
-
-            game.setScreen(new Level2(level,game,gato));
-            Puerta.setNextLevel(false);
-            music.stop();
-            dispose();
-
+        if(timeCount >= 1){
+            if(countSegundos <= 2 && Puerta.isNextLevel()){
+                level = "1-2";
+                PreferencesClass.setLevelPreferences(2+"",level);
+                Puerta.setNextLevel(false);
+                music.stop();
+                game.setScreen(new Level2(level,game,gato));
+                dispose();
+                countSegundos++;
+            }
+            timeCount = 0;
         }
 
     }
@@ -142,9 +158,11 @@ public class Level1 extends JuegoScreen{
     @Override
     public void update(float dt) {
         super.update(dt);
+
         ascensor.update(dt);
         key.update(dt,cat);
         cat.update(dt);
+
     }
 
 

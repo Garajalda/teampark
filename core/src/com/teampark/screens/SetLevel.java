@@ -6,7 +6,6 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -14,9 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -31,7 +28,7 @@ import java.util.ArrayList;
  * Esta clase es la pantalla para selecionar el nivel.
  * @see Screen
  * @author Gara Jalda / Colegio Vivas
- * @version 1.0, 2022/02/17
+ * @version 1.0
  */
 public class SetLevel implements Screen {
 
@@ -80,10 +77,8 @@ public class SetLevel implements Screen {
         Gdx.input.setInputProcessor(MainGame.multiplexer);
 
         PreferencesClass.setLevelPreferences(1+"",level);
-        System.out.println(PreferencesClass.getCountLevels());
+        System.out.println("contador niveles: "+PreferencesClass.getCountLevels());
 
-        System.out.println(PreferencesClass.getLevelPreferences(1+""));
-        Skin skin = new Skin(Gdx.files.internal("Terra_Mother_UI_Skin/terramotherui/terra-mother-ui.json"));
         final Viewport viewport;
         viewport = new FitViewport((float) MainGame.VIEW_WIDTH,MainGame.VIEW_HEIGHT);
         this.stage = new Stage(viewport, ((MainGame)game).batch);
@@ -92,18 +87,18 @@ public class SetLevel implements Screen {
         TextureRegion buttonSalirT = new TextureRegion(new Texture("controllers/UI_orange_buttons_pressed_3.png"),16,48,16,16);
         Sprite dR = new Sprite(buttonSalirT);
         Image buttonSalir = new Image(dR);
+        buttonSalir.setPosition(380,187);
 
         Table table = new Table();
-        table.debug();
         table.setFillParent(true);
         table.top();
 
-        ImageTextButton label = new ImageTextButton("Elige el nivel", skin,"default");
+        Label label = new Label("Elige el nivel",MainGame.generatorStyle(15,Color.WHITE));
 
         table.row().expandX().center();
-        table.add(label).center();
-        table.add(buttonSalir).right();
+        table.add(label).center().padTop(10);
         stage.addActor(table);
+        stage.addActor(buttonSalir);
 
         ArrayList<ImageButton> buttons = new ArrayList<>();
 
@@ -113,17 +108,17 @@ public class SetLevel implements Screen {
             Texture newLevelTexture = new Texture("controllers/level.png");
             final SpriteDrawable startGame = new SpriteDrawable(new Sprite(newLevelTexture));
             ImageButton button = new ImageButton(startGame);
-            Label.LabelStyle font = new Label.LabelStyle(new BitmapFont(), Color.WHITE);
+
             Label nivel;
-            if(i <= PreferencesClass.getCountLevels()){
-                nivel = new Label(i+"", font);
+            if(i <= PreferencesClass.getCountLevels().size()){
+                nivel = new Label(i+"", MainGame.generatorStyle(10,Color.WHITE));
             }else{
-                nivel = new Label("?",font);
+                nivel = new Label("?",MainGame.generatorStyle(10,Color.WHITE));
             }
 
-            nivel.setPosition(122+ espacioTexto,110);
+            nivel.setPosition(162+ espacioTexto,115);
             button.setSize(50 + espacio,50);
-            button.setPosition(100 + espacio,94);
+            button.setPosition(140 + espacio,94);
             stage.addActor(button);
             stage.addActor(nivel);
             buttons.add(button);
@@ -147,7 +142,7 @@ public class SetLevel implements Screen {
             }
         });
         System.out.println(PreferencesClass.getCountLevels());
-        if(PreferencesClass.getCountLevels() == 2){
+        if(PreferencesClass.getCountLevels().size() == 2){
             buttons.get(1).addListener(new InputListener(){
                 @Override
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {

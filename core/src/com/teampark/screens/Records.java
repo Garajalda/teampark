@@ -4,8 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -20,10 +18,11 @@ import com.teampark.scenes.TableRecords;
 import com.teampark.tools.PreferencesClass;
 
 /**
- * Esta clase es la pantalla que recoge los records almacenados o los escribe.
+ * Esta clase es la pantalla que recoge los records almacenados.
  * @see Screen
+ * @see TableRecords
  * @author Gara Jalda / Colegio Vivas
- * @version 1.0, 2022/02/27
+ * @version 1.0
  */
 public class Records implements Screen {
 
@@ -39,11 +38,6 @@ public class Records implements Screen {
      */
     private final Stage stage;
 
-    /**
-     * Define el estilo de fuente de la ventana
-     * @see BitmapFont
-     */
-    private final BitmapFont font;
 
     /**
      * Define la raíz del juego donde se cargan los assets.
@@ -84,12 +78,6 @@ public class Records implements Screen {
      */
     private final Label labelRecords;
 
-    /**
-     * Define un estilo de label
-     * @see Label.LabelStyle
-     */
-    private final Label.LabelStyle labelStyle;
-
 
     /**
      * Constructor que define la ventana records en caso de superar el nivel 2
@@ -102,15 +90,10 @@ public class Records implements Screen {
         this.viewport = new FitViewport((float) MainGame.VIEW_WIDTH,MainGame.VIEW_HEIGHT);
         Gdx.input.setInputProcessor(MainGame.multiplexer);
 
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("font/dogicapixel.ttf"));
-        FreeTypeFontGenerator.FreeTypeFontParameter params = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        params.size = 10;
-        font = generator.generateFont(params);
-
         stage = new Stage(viewport, ((MainGame)game).batch);
 
-        this.labelStyle = new Label.LabelStyle(font, Color.WHITE);
-        this.labelRecords = new Label("Records",labelStyle);
+
+        this.labelRecords = new Label("Records",MainGame.generatorStyle(10,Color.WHITE));
 
         this.table = new Table();
 
@@ -123,8 +106,8 @@ public class Records implements Screen {
         table.row().expandX().center();
         for (String k: PreferencesClass.getRecordPreferences().keySet()) {
             table.row().expandX().padTop(15).center();
-            table.add(new Label(k,labelStyle)).center();
-            table.add(new Label(PreferencesClass.getRecordPreferences().get(k).toString(),labelStyle)).center();
+            table.add(new Label(k,MainGame.generatorStyle(10,Color.WHITE))).center();
+            table.add(new Label(PreferencesClass.getRecordPreferences().get(k).toString(),MainGame.generatorStyle(10,Color.WHITE))).center();
             table.row().expandX().center();
         }
 
@@ -150,15 +133,9 @@ public class Records implements Screen {
 
         Gdx.input.setInputProcessor(MainGame.multiplexer);
 
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("font/dogicapixel.ttf"));
-        FreeTypeFontGenerator.FreeTypeFontParameter params = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        params.size = 10;
-        font = generator.generateFont(params);
-
         stage = new Stage(viewport, ((MainGame)game).batch);
 
-        this.labelStyle = new Label.LabelStyle(font, Color.WHITE);
-        this.labelRecords = new Label("Records",labelStyle);
+        this.labelRecords = new Label("Records",MainGame.generatorStyle(10,Color.WHITE));
 
         this.table = new Table();
 
@@ -171,8 +148,8 @@ public class Records implements Screen {
         table.row().expandX().center();
         for (String k: PreferencesClass.getRecordPreferences().keySet()) {
             table.row().expandX().padTop(15).center();
-            table.add(new Label(k,labelStyle)).center();
-            table.add(new Label(PreferencesClass.getRecordPreferences().get(k).toString(),labelStyle)).center();
+            table.add(new Label(k,MainGame.generatorStyle(10,Color.WHITE))).center();
+            table.add(new Label(PreferencesClass.getRecordPreferences().get(k).toString(),MainGame.generatorStyle(10,Color.WHITE))).center();
             table.row().expandX().center();
 
         }
@@ -187,7 +164,7 @@ public class Records implements Screen {
      * Método que define el evento de la escena cuando se quiera volver a una ventana anterior.
      */
     public void Onclick(){
-        this.tableRecords = new TableRecords(game,screen,gatoElegido,tiempoTotal, game.batch);
+        this.tableRecords = new TableRecords(screen, tiempoTotal, game.batch);
         stage.addListener(new InputListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {

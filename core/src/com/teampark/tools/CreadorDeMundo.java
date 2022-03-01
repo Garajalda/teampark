@@ -17,8 +17,23 @@ import com.teampark.screens.Level2;
 
 import java.util.ArrayList;
 
+/**
+ * Clase que define la creación de objetos en el mundo
+ * @author Gara Jalda / Colegio Vivas
+ * @version 1.0
+ */
 public class CreadorDeMundo {
-    ArrayList<Cubo> cubos;
+
+    /**
+     * Guarda los cubos creados en un array
+     * @see Cubo
+     */
+    private final ArrayList<Cubo> cubos;
+
+    /**
+     * Constructor de clase que define las características comunes de los objetos creados de un tilemap
+     * @param screen
+     */
     public CreadorDeMundo(JuegoScreen screen){
         World world = screen.getWorld();
         TiledMap map = screen.getMap();
@@ -26,8 +41,6 @@ public class CreadorDeMundo {
         PolygonShape shape = new PolygonShape();
         FixtureDef fdef = new FixtureDef();
         Body body;
-
-
 
         //obtengo el objeto del suelo
         for (RectangleMapObject object : map.getLayers().get(1).getObjects().getByType(RectangleMapObject.class)){
@@ -37,7 +50,7 @@ public class CreadorDeMundo {
             body = world.createBody(bdef);
             shape.setAsBox(rectangle.getWidth()/2/MainGame.PPM,rectangle.getHeight()/2/MainGame.PPM);
             fdef.shape= shape;
-            fdef.filter.categoryBits = MainGame.GROUND_BIT;
+            fdef.filter.categoryBits = MainGame.SUELO_BIT;
             fdef.filter.maskBits = MainGame.CAT_BIT | MainGame.ASCENSOR_BIT | MainGame.CUBO_BIT;
 
             body.createFixture(fdef);
@@ -62,16 +75,15 @@ public class CreadorDeMundo {
             for (RectangleMapObject object : map.getLayers().get(4).getObjects().getByType(RectangleMapObject.class)){
                 Rectangle rectangle = object.getRectangle();
                 cubos.add(new Cubo(screen,rectangle));
-                //new Cubo(screen,rectangle);
-
             }
         }
-
-
-
     }
 
-    public  ArrayList<Cubo> getCubos(){
+    /**
+     * Método que devuelve los cubos creados.
+     * @return ArrayList<Cubo>
+     */
+    public ArrayList<Cubo> getCubos(){
         return cubos;
     }
 

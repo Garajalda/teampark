@@ -27,7 +27,7 @@ import com.teampark.tools.WorldContactListener;
  * Clase que define la pantalla del juego, carga los mapas, los personajes, los niveles...
  * @see Screen
  * @author Gara Jalda / Colegio Vivas
- * @version 1.0, 2022/02/06
+ * @version 1.0
  */
 public class JuegoScreen implements Screen{
 
@@ -185,7 +185,7 @@ public class JuegoScreen implements Screen{
         info.update(dt);
 
         if (cat.estadoActual != Cat.State.DEAD) {
-            gameCamera.position.x = cat.b2body.getPosition().x;
+            gameCamera.position.x = cat.body.getPosition().x;
         }
 
         gameCamera.update();
@@ -210,30 +210,30 @@ public class JuegoScreen implements Screen{
                 }
             }
 
-            if (!cat.isDead() && !settings.tableVisible) {
+            if (!cat.isDead() && !settings.isTableVisible()) {
                 if (camina) {
-                    if (cat.b2body.getLinearVelocity().x >= -0.8f && cat.b2body.getLinearVelocity().x <= 0.8f) {
-                        cat.b2body.applyLinearImpulse(new Vector2(controlTouch.getKnobPercentX() * 0.05f, 0), cat.b2body.getWorldCenter(), true);
+                    if (cat.body.getLinearVelocity().x >= -0.8f && cat.body.getLinearVelocity().x <= 0.8f) {
+                        cat.body.applyLinearImpulse(new Vector2(controlTouch.getKnobPercentX() * 0.05f, 0), cat.body.getWorldCenter(), true);
                     }
                 }
                 if (salta && !settings.isPressedSettings()) {
 
                     if(Gdx.input.justTouched()){
-                        if ((!WorldContactListener.catNotTouch || cat.b2body.getLinearVelocity().y== 0)){
-                            cat.b2body.applyLinearImpulse(new Vector2(0, 2.8f), cat.b2body.getWorldCenter(), true);
+                        if ((!WorldContactListener.catNotTouch || cat.body.getLinearVelocity().y== 0)){
+                            cat.body.applyLinearImpulse(new Vector2(0, 2.8f), cat.body.getWorldCenter(), true);
                         }
                     }
                 }
                 //mover personaje PC pruebas
                 if (Gdx.input.isKeyJustPressed(Input.Keys.UP))
-                    cat.b2body.applyLinearImpulse(new Vector2(0, 2.5f), cat.b2body.getWorldCenter(), true);
+                    cat.body.applyLinearImpulse(new Vector2(0, 2.5f), cat.body.getWorldCenter(), true);
 
                 //velocidad max q se puede permitir el gato
-                if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && cat.b2body.getLinearVelocity().x <= 0.8f)
-                    cat.b2body.applyLinearImpulse(new Vector2(0.05f, 0), cat.b2body.getWorldCenter(), true);
+                if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && cat.body.getLinearVelocity().x <= 0.8f)
+                    cat.body.applyLinearImpulse(new Vector2(0.05f, 0), cat.body.getWorldCenter(), true);
 
-                if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && cat.b2body.getLinearVelocity().x >= -0.8f)
-                    cat.b2body.applyLinearImpulse(new Vector2(-0.05f, 0), cat.b2body.getWorldCenter(), true);
+                if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && cat.body.getLinearVelocity().x >= -0.8f)
+                    cat.body.applyLinearImpulse(new Vector2(-0.05f, 0), cat.body.getWorldCenter(), true);
             }
         }
 

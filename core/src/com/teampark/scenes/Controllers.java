@@ -2,6 +2,7 @@ package com.teampark.scenes;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -18,6 +19,8 @@ import com.teampark.MainGame;
  * @see Touchpad
  * @see Disposable
  * @see InputProcessor
+ * @author Gara Jalda / Colegio Vivas
+ * @version 1.0
  */
 public class Controllers extends Touchpad implements Disposable, InputProcessor {
 
@@ -72,6 +75,10 @@ public class Controllers extends Touchpad implements Disposable, InputProcessor 
 
 
 
+    /**
+     * Método que libera recursos de la escena.
+     * @see Screen#dispose()
+     */
     @Override
     public void dispose() {
         stage.dispose();

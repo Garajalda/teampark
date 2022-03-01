@@ -6,7 +6,6 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -21,7 +20,7 @@ import com.teampark.Sprites.cats.Cat;
  * Clase que define la pantalla cuando pierde el personaje
  * @see Screen
  * @author Gara Jalda / Colegio Vivas
- * @version 1.0, 2022/01/02
+ * @version 1.0
  */
 public class GameOverScreen implements Screen {
 
@@ -62,14 +61,13 @@ public class GameOverScreen implements Screen {
         this.level =level;
         Viewport viewport = new FitViewport((float) MainGame.VIEW_WIDTH, MainGame.VIEW_HEIGHT);
         stage = new Stage(viewport, ((MainGame)game).batch);
-        Label.LabelStyle font = new Label.LabelStyle(new BitmapFont(), Color.WHITE);
 
         Table table = new Table();
         table.center();
         table.setFillParent(true);
 
 
-        Label playAgainLabel = new Label("Pulsa  para  reiniciar  la  partida",font);
+        Label playAgainLabel = new Label("Pulsa para reiniciar la partida",MainGame.generatorStyle(10,Color.WHITE));
         Image image = new Image(new Texture("gameover.png"));
         image.setScale(0.6f,0.5f);
         table.add(image).expandX().padLeft(115).padBottom(10);

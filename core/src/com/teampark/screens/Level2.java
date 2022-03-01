@@ -20,7 +20,7 @@ import com.teampark.tools.WorldContactListener;
  * @see Screen
  * @see JuegoScreen hereda
  * @author Gara Jalda / Colegio Vivas
- * @version 1.0, 2022/02/12
+ * @version 1.0
  */
 public class Level2 extends JuegoScreen{
 

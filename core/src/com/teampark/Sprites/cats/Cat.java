@@ -17,62 +17,138 @@ import com.teampark.screens.JuegoScreen;
 import com.teampark.tools.WorldContactListener;
 
 
+/**
+ * Clase que define el personaje principal del juego
+ * @see Sprite
+ * @author Gara Jalda / Colegio Vivas
+ * @version 1.0
+ */
 public class Cat extends Sprite {
 
-
+    /**
+     * Define los estados en los que se encuentra el personaje
+     */
     public enum State{SALTO, PARA, CAMINA, CAIDA,DEAD}
+
+    /**
+     * Define el tipo de gato
+     */
     public enum TypeCat{BLACK, BROWN}
+
+    /**
+     * Define el estado actual
+     */
     public State estadoActual;
+    /**
+     * Define el estado anterior
+     */
     public State estadoAnterior;
+    /**
+     * Define las fisicas del mundo
+     */
     public World world;
-    public Body b2body;
+    /**
+     * Define las características del cuerpo
+     */
+    public Body body;
+    /**
+     * Define la región de la textura
+     */
     private TextureRegion catTextureRegion;
+    /**
+     * Define la animacion cuando el personaje camina
+     */
     private Animation catCamina;
+    /**
+     * Es la textura concreta del personaje cuando salta
+     */
     private TextureRegion catSalta;
+    /**
+     * Textura de cuando muere el personaje
+     */
     private TextureRegion catDead;
+    /**
+     * Contador de delta
+     */
     private float stateTimer;
-    private boolean runningRight;
+    /**
+     * Indica si esta mirando hacia la derecha
+     */
+    private boolean isRight;
+    /**
+     * Tipo de gato
+     */
     private TypeCat tipo;
+    /**
+     * Lista de frames de la animación
+     */
     private final Array<TextureRegion> frames;
+    /**
+     * Indica si murió el personaje principal
+     */
     private boolean catIsDead;
+    /**
+     * Ubicación del eje x del cuerpo
+     */
     private final float xBody;
+    /**
+     *Ubicación del eje y del cuerpo
+     */
     private final float yBody;
 
+    /**
+     * Método que nos indica de que tipo es el personaje
+     * @param tipo
+     */
     public void setTipo(TypeCat tipo){
         this.tipo = tipo;
     }
-    public TypeCat getTipo(){
-        return tipo;
-    }
-    Vector2 previousPosition;
+
+    /**
+     * Contiene coordenadas de la posición
+     * @see Vector2
+     */
+    Vector2 posicionAnterior;
+
+    /**
+     * Constructor que inicializa los estados actuales
+     * @param screen
+     * @param tipoGato
+     * @param x
+     * @param y
+     */
     public Cat(JuegoScreen screen,TypeCat tipoGato,float x, float y){
         super(screen.getTextureAtlas().findRegion("cat_"+tipoGato.name()+"-32x48"));
         this.world = screen.getWorld();
-        previousPosition = new Vector2(getX(),getY());
+        posicionAnterior = new Vector2(getX(),getY());
         estadoActual = State.PARA;
         estadoAnterior = State.PARA;
         stateTimer = 0;
-        runningRight = true;
+        isRight = true;
         setTipo(tipoGato);
         this.xBody = x;
         this.yBody = y;
 
         //gato corre
-
-
         this.frames = new Array<>();
         getTipoGato();
 
     }
 
 
-
-
+    /**
+     * Método que actualiza la posición de la textura
+     * @param dt
+     */
     public void update(float dt){
-        setPosition(b2body.getPosition().x-getWidth()/2, (float) ((double) b2body.getPosition().y-getHeight()/3.3));
+        setPosition(body.getPosition().x-getWidth()/2, (float) ((double) body.getPosition().y-getHeight()/3.3));
         setRegion(getFrame(dt));
 
     }
+
+    /**
+     * Método que nos devuelve los frames de cada tipo de gato
+     */
     private void getTipoGato(){
         switch (tipo){
             case BLACK:
@@ -105,11 +181,16 @@ public class Cat extends Sprite {
         catCamina = new Animation(0.1f,frames);
         frames.clear();
 
-        defineCatBlack();
+        defineCat();
         setBounds(0,0,(float)32/MainGame.PPM,(float)48/MainGame.PPM);
         setRegion(catTextureRegion);
     }
 
+    /**
+     * Método que nos devuelve la textura del estado en el que se encuentra
+     * @param dt
+     * @return la textura del gato
+     */
     private TextureRegion getFrame(float dt) {
         estadoActual = getState();
         TextureRegion region;
@@ -133,19 +214,17 @@ public class Cat extends Sprite {
                 catIsDead = true;
             }
 
-            if((b2body.getLinearVelocity().x <0 || !runningRight) && !region.isFlipX()){
+            if((body.getLinearVelocity().x <0 || !isRight) && !region.isFlipX()){
 
                  region.flip(true,false);
-                 runningRight = false;
+                 isRight = false;
 
             }
-            else if((b2body.getLinearVelocity().x >0 || runningRight) && region.isFlipX()){
+            else if((body.getLinearVelocity().x >0 || isRight) && region.isFlipX()){
                 region.flip(true,false);
-                runningRight = true;
+                isRight = true;
                 //System.out.println(b2body.getLinearVelocity().x);
             }
-
-
 
 
         stateTimer = estadoActual == estadoAnterior ? stateTimer + dt : 0;
@@ -154,33 +233,49 @@ public class Cat extends Sprite {
     }
 
 
+    /**
+     * Método que nos devuelve el estado del gato.
+     * @return
+     */
     public State getState(){
         if(catIsDead)
             return State.DEAD;
-        else if(WorldContactListener.catNotTouch && (b2body.getLinearVelocity().y > 0 || (b2body.getLinearVelocity().y < 0 && estadoAnterior == State.SALTO)))
+        else if(WorldContactListener.catNotTouch && (body.getLinearVelocity().y > 0 || (body.getLinearVelocity().y < 0 && estadoAnterior == State.SALTO)))
             return State.SALTO;
-        else if(WorldContactListener.catNotTouch && b2body.getLinearVelocity().y<0)
+        else if(WorldContactListener.catNotTouch && body.getLinearVelocity().y<0)
             return State.CAIDA;
-        else if(b2body.getLinearVelocity().x != 0)
+        else if(body.getLinearVelocity().x != 0)
             return State.CAMINA;
         else
             return State.PARA;
     }
 
+    /**
+     * Método que devuelve si el personaje esta muerto
+     * @return nos devuelve booleana
+     */
     public boolean isDead(){
         return catIsDead;
     }
+
+    /**
+     * Método que nos devuelve un contador.
+     * @return
+     */
     public float getStateTimer(){
         return stateTimer;
     }
 
 
-    private void defineCatBlack() {
+    /**
+     * Método que define el cuerpo del personaje
+     */
+    private void defineCat() {
         BodyDef bdef = new BodyDef();
-        bdef.position.set((float)xBody/MainGame.PPM,(float)yBody/MainGame.PPM);
+        bdef.position.set(xBody /MainGame.PPM, yBody /MainGame.PPM);
 
         bdef.type = BodyDef.BodyType.DynamicBody;
-        b2body = world.createBody(bdef);
+        body = world.createBody(bdef);
 
         FixtureDef fdef = new FixtureDef();
 
@@ -188,14 +283,11 @@ public class Cat extends Sprite {
 
         shape.setAsBox((float)13/MainGame.PPM,(float) 9/MainGame.PPM);
         fdef.filter.categoryBits = MainGame.CAT_BIT;
-        fdef.filter.maskBits = MainGame.GROUND_BIT | MainGame.BOTON_BIT | MainGame.CAT_BIT | MainGame.ASCENSOR_BIT | MainGame.KEY_BIT |MainGame.PUERTA_BIT | MainGame.CUBO_BIT;
+        fdef.filter.maskBits = MainGame.SUELO_BIT | MainGame.BOTON_BIT | MainGame.CAT_BIT | MainGame.ASCENSOR_BIT | MainGame.KEY_BIT |MainGame.PUERTA_BIT | MainGame.CUBO_BIT;
 
         fdef.shape = shape;
 
-        b2body.createFixture(fdef).setUserData("body");
-
-
-
+        body.createFixture(fdef).setUserData("body");
 
         //cabeza
         EdgeShape head = new EdgeShape();
@@ -203,15 +295,14 @@ public class Cat extends Sprite {
         fdef.shape = head;
         fdef.isSensor = true;
 
-        b2body.createFixture(fdef).setUserData("head");
+        body.createFixture(fdef).setUserData("head");
 
         //pies
         EdgeShape foot = new EdgeShape();
         foot.set(new Vector2((float) -7/MainGame.PPM,(float)-10/MainGame.PPM),new Vector2((float) 7/MainGame.PPM,(float)-10/MainGame.PPM));
         fdef.shape = foot;
         fdef.isSensor = true;
-        b2body.createFixture(fdef).setUserData("foot");
-
+        body.createFixture(fdef).setUserData("foot");
 
     }
 }

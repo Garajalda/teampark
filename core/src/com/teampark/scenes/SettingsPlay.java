@@ -28,34 +28,87 @@ import com.teampark.screens.Records;
 import com.teampark.screens.SetLevel;
 import com.teampark.tools.PreferencesClass;
 
+
+/**
+ * Esta clase define los ajustes dentro de la ventana de los niveles.
+ * @see com.badlogic.gdx.Screen
+ * @see Disposable implementa
+ * @author Gara Jalda / Colegio Vivas
+ * @version 1.0
+ */
 public class SettingsPlay implements Disposable{
 
-    public Stage stage;
-    public Viewport viewport;
+    /**
+     * Define el escenario de la ventana
+     * @see Stage
+     */
+    public final Stage stage;
 
-    MainGame game;
+
+    /**
+     * Método que define si se ha presionado el botón settings
+     */
+    private boolean pressedSettings;
+
+    /**
+     * Método que devuelve si se ha presionado el botón settings
+     * @return pressedSettings
+     */
     public boolean isPressedSettings() {
         return pressedSettings;
     }
-    Cat.TypeCat gatoElegido;
-    boolean pressedSettings;
-    String level;
-    JuegoScreen juegoScreen;
-    Music music;
-    final ImageTextButton sound;
-    boolean soundBoolean;
-    public boolean tableVisible;
-    Music musicplatform;
-    Music musicplatform2;
-    Music musicInicio;
+
+    /**
+     * Botón para habilitar o deshabilitar el sonido.
+     * @see ImageTextButton
+     */
+    private final ImageTextButton sound;
+    /**
+     * Variable que define si esta el sonido activado o no
+     */
+    private boolean soundBoolean;
+
+
+    /**
+     * Variable que define si se activó la vista de los ajustes
+     */
+    private boolean tableVisible;
+
+    /**
+     * Método que devuelve si se activó la vista de los ajustes
+     * @return
+     */
+    public boolean isTableVisible() { return tableVisible; }
+
+    /**
+     * Define la música del nivel 1
+     * @see Music
+     */
+    private final Music musicplatform;
+    /**
+     * Define la música del nivel 2
+     * @see Music
+     */
+    private final Music musicplatform2;
+    /**
+     * Define la música de inicio
+     * @see Music
+     */
+    private final Music musicInicio;
+
+    /**
+     *
+     * Constructor de clase que define los elementos de los ajustes y su actual estado
+     * @param juegoScreen
+     * @param level
+     * @param game
+     * @param sb
+     * @param gatoElegido
+     */
     public SettingsPlay(final JuegoScreen juegoScreen, final String level, final MainGame game, final SpriteBatch sb, final Cat.TypeCat gatoElegido){
 
-        viewport = new FitViewport(MainGame.VIEW_WIDTH, MainGame.VIEW_HEIGHT, new OrthographicCamera());
+        Viewport viewport = new FitViewport(MainGame.VIEW_WIDTH, MainGame.VIEW_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport,sb);
-        this.level = level;
-        this.gatoElegido = gatoElegido;
-        this.game = game;
-        this.juegoScreen = juegoScreen;
         final Table table = new Table();
         table.setFillParent(true);
         table.right().top().padTop(2).padRight(2);
@@ -66,8 +119,6 @@ public class SettingsPlay implements Disposable{
         musicInicio = MainGame.managerSongs.get("audio/music/aeon.ogg");
 
         soundBoolean = PreferencesClass.getSoundPreferences("sound");
-        music = MainGame.managerSongs.get("audio/music/aeon.ogg", Music.class);
-        music.setLooping(true);
 
         Gdx.input.setInputProcessor(MainGame.multiplexer);
         //Image settingImg = new Image(new Texture("configuraciones.png"));
@@ -79,7 +130,6 @@ public class SettingsPlay implements Disposable{
         final ImageTextButton salir = new ImageTextButton("Salir                          ", skin,"default");
         final ImageTextButton creditos = new ImageTextButton("Ver creditos              ", skin,"default");
         sound = new ImageTextButton(PreferencesClass.getSoundPreferences("sound") ? "Sonido: On" : "Sonido: Off",skin,"default");
-
 
         final Table table1 = new Table();
         table1.setSize(180,120);
@@ -100,25 +150,22 @@ public class SettingsPlay implements Disposable{
         table1.setVisible(false);
         stage.addActor(table1);
 
-
-
         salir.addListener(new InputListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 //table1.setVisible(false);
 
                 game.setScreen(new SetLevel(game,gatoElegido));
-                Music musicplatform = MainGame.managerSongs.get("audio/music/MusicPlatform.mp3");
                 musicplatform.stop();
-                Music musicplatform2 = MainGame.managerSongs.get("audio/music/MusicPlatform2.mp3");
                 musicplatform2.stop();
 
                 if (PreferencesClass.getSoundPreferences("sound")) {
-                    music.play();
+                    musicInicio.play();
                 } else {
-                    music.stop();
+                    musicInicio.stop();
                 }
 
+                assert juegoScreen != null;
                 juegoScreen.dispose();
 
                 return true;
@@ -130,7 +177,7 @@ public class SettingsPlay implements Disposable{
 
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                tableVisible = tableVisible ? false : true;
+                tableVisible = !tableVisible;
 
                 table1.setVisible(tableVisible);
                 pressedSettings = true;
@@ -148,13 +195,13 @@ public class SettingsPlay implements Disposable{
         sound.addListener(new InputListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                soundBoolean = soundBoolean ? false : true;
+                soundBoolean = !soundBoolean;
                 PreferencesClass.setSoundPreferences("sound",soundBoolean);
                 sound.setText(PreferencesClass.getSoundPreferences("sound") ? "Sonido: On" : "Sonido: Off");
                 Music mu;
-                if(level == "1-1"){
+                if(level.equals("1-1")){
                     mu = musicplatform;
-                }else if(level == "1-2"){
+                }else if(level.equals("1-2")){
                     mu = musicplatform2;
                 }else{
                     mu = musicInicio;
@@ -164,8 +211,6 @@ public class SettingsPlay implements Disposable{
                 } else {
                     mu.stop();
                 }
-
-
 
                 return true;
             }
@@ -180,6 +225,7 @@ public class SettingsPlay implements Disposable{
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 game.setScreen(new Creditos(game,juegoScreen,gatoElegido));
+                assert juegoScreen != null;
                 juegoScreen.dispose();
                 return super.touchDown(event, x, y, pointer, button);
             }
@@ -189,6 +235,7 @@ public class SettingsPlay implements Disposable{
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 game.setScreen(new Records(game,juegoScreen,gatoElegido,new StringBuilder("")));
+                assert juegoScreen != null;
                 juegoScreen.dispose();
                 return super.touchDown(event, x, y, pointer, button);
             }
@@ -200,6 +247,10 @@ public class SettingsPlay implements Disposable{
 
     }
 
+    /**
+     * Método que permite liberar recursos
+     * @see Disposable#dispose()
+     */
     @Override
     public void dispose() {
 

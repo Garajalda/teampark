@@ -26,7 +26,7 @@ import com.teampark.tools.PreferencesClass;
  * Esta clase es la pantalla de ayuda.
  * @see Screen
  * @author Gara Jalda / Colegio Vivas
- * @version 1.0, 2022/02/27
+ * @version 1.0
  */
 public class Help implements Screen {
 
@@ -93,9 +93,9 @@ public class Help implements Screen {
         Image buttonSalir = new Image(dR);
 
         Table table = new Table();
-        table.top();
+        table.top().padTop(10);
         table.setFillParent(true);
-        Label label = new Label("Ayuda", font);
+        Label label = new Label("Ayuda", MainGame.generatorStyle(12, Color.WHITE));
 
 
         Sprite tutoCaminar = new Sprite(new TextureRegion(new Texture("tutorial/pictureTutorialCaminar.png")));

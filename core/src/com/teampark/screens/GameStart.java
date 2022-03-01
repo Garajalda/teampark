@@ -7,7 +7,6 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -24,7 +23,7 @@ import com.teampark.tools.PreferencesClass;
  * Esta clase es la pantalla que se encuentra al iniciar la aplicación.
  * @see Screen
  * @author Gara Jalda / Colegio Vivas
- * @version 1.0, 2022/01/05
+ * @version 1.0
  */
 public class GameStart implements Screen {
 
@@ -70,8 +69,8 @@ public class GameStart implements Screen {
         this.batch = batch;
 
         stage = new Stage(viewport, game.batch);
-        Label.LabelStyle font = new Label.LabelStyle(new BitmapFont(), Color.WHITE);
         this.game = game;
+        PreferencesClass.setPrefVibrator("vibrator", true);
 
         music = MainGame.managerSongs.get("audio/music/aeon.ogg", Music.class);
         music.setLooping(true);
@@ -82,14 +81,15 @@ public class GameStart implements Screen {
             music.stop();
         }
 
+
         Table table = new Table();
         table.setFillParent(true);
-        Label label = new Label("Team Park", font);
+        Label label = new Label("Team Park", MainGame.generatorStyle(15,Color.WHITE));
 
         fondoImage = new Image(new TextureRegion(new Texture("fondostart.png")));
 
         fondoImage.setScale(1f,1f);
-        table.add(label).expandX().padLeft(100).padRight(50);
+        table.add(label).expandX().padLeft(50).padRight(50);
         table.add(fondoImage).expandX();
 
         table.row();

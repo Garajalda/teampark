@@ -3,6 +3,7 @@ package com.teampark.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -14,15 +15,13 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-
-
 import com.teampark.MainGame;
 import com.teampark.Sprites.cats.Cat;
 import com.teampark.tools.PreferencesClass;
@@ -34,21 +33,74 @@ import java.util.ArrayList;
  * Esta clase define la elección por parte del usuario sobre el personaje.
  * @see Screen
  * @author Gara Jalda / Colegio Vivas
- * @version 1.0, 2022/02/17
+ * @version 1.0
  */
 public class SetPersonaje implements Screen{
 
+    /**
+     * Define el escenario de la ventana
+     * @see Stage
+     */
     private final Stage stage;
+
+    /**
+     * Define la raíz del juego donde se cargan los assets.
+     * @see MainGame
+     */
     private final MainGame game;
-    Skin skin;
+
+    /**
+     * Lista de Sprites de gatos.
+     * @see Sprite
+     */
     private final Array<Sprite> catImages;
+
+    /**
+     * Lista de tipos de gato
+     * @see Cat
+     */
     public static ArrayList<Cat.TypeCat> map = new ArrayList<>();
+
+    /**
+     * Tipo de gato actualmente elegido
+     * @see Cat
+     */
     public Cat.TypeCat gatoElegido;
-    Music music;
-    Sprite cat;
+
+    /**
+     * Musica de inicio
+     * @see Music
+     */
+    private final Music music;
+
+    /**
+     * Sprite de gato
+     * @see Sprite
+     */
+    private Sprite cat;
+
+    /**
+     * Contador que se incrementa cada vez que se pulsa en el botón de selección para elegir entre los diferentes gatos
+     */
     private int i = 0;
-    boolean soundBoolean;
-    final ImageTextButton sound;
+
+    /**
+     * Define si esta activada la música
+     */
+    private boolean soundBoolean;
+
+    /**
+     * Define si esta activada la vibración
+     */
+    private boolean vibratorBoolean;
+
+    /**
+     * Botón para activar o desactivar la música
+     * @see ImageTextButton
+     */
+    private final ImageTextButton sound;
+
+    private final ImageTextButton vibrator;
 
     /**
      * Método que define el personaje que ha elegido el ususario.
@@ -73,7 +125,7 @@ public class SetPersonaje implements Screen{
      * @param game
      */
     public SetPersonaje(final MainGame game) {
-        skin= new Skin(Gdx.files.internal("Terra_Mother_UI_Skin/terramotherui/terra-mother-ui.json"));
+        Skin skin = new Skin(Gdx.files.internal("Terra_Mother_UI_Skin/terramotherui/terra-mother-ui.json"));
         this.game = game;
         final Viewport viewport;
         viewport = new FitViewport((float) MainGame.VIEW_WIDTH,MainGame.VIEW_HEIGHT);
@@ -82,30 +134,30 @@ public class SetPersonaje implements Screen{
         catImages.add(tipoGato(Cat.TypeCat.BROWN));
         catImages.add(tipoGato(Cat.TypeCat.BLACK));
 
-        this.stage = new Stage(viewport, ((MainGame)game).batch);
+        this.stage = new Stage(viewport, game.batch);
         gatoElegido = Cat.TypeCat.BLACK;
 
         soundBoolean = PreferencesClass.getSoundPreferences("sound");
+        vibratorBoolean = PreferencesClass.getPrefVibrator("vibrator");
+
         music = MainGame.managerSongs.get("audio/music/aeon.ogg", Music.class);
         music.setLooping(true);
 
-
-        final Skin skin = new Skin(Gdx.files.internal("Terra_Mother_UI_Skin/terramotherui/terra-mother-ui.json"));
         final ImageTextButton records = new ImageTextButton("Records", skin,"default");
         final ImageTextButton salir = new ImageTextButton("Salir", skin,"default");
         final ImageTextButton creditos = new ImageTextButton("Ver creditos", skin,"default");
         final ImageTextButton help = new ImageTextButton("Ayuda", skin,"default");
-        sound = new ImageTextButton(PreferencesClass.getSoundPreferences("sound") ? "Sonido: On" : "Sonido: Off",skin,"default");
-
+        sound = new ImageTextButton(PreferencesClass.getSoundPreferences("sound") ? "Sonido: On" : "Sonido: Off", skin,"default");
+        vibrator = new ImageTextButton(PreferencesClass.getPrefVibrator("vibrator") ? "Vibracion: On" : "Vibracion: Off", skin,"default");
 
         Table table = new Table();
         table.setFillParent(true);
         table.top();
 
-        TextField label = new TextField("  Elige el personaje",skin);
+        Label label = new Label("Elige el personaje", MainGame.generatorStyle(12, Color.WHITE));
 
-        table.row().expandX().center();
-        table.add(label).padLeft(59).padTop(10);
+        table.row().center();
+        table.add(label).padLeft(60).padTop(10);
         table.row().expandX().right();
         table.add(records).left();
         table.row().expandX().right();
@@ -113,9 +165,11 @@ public class SetPersonaje implements Screen{
         table.row().right();
         table.add(sound).left();
         table.row().right();
+        table.add(vibrator).left();
+        table.row().right();
         table.add(help).left();
         table.row().right();
-        table.add(creditos).left();
+        table.add(creditos).left().padBottom(50);
 
 
         //boton derecha
@@ -151,6 +205,7 @@ public class SetPersonaje implements Screen{
 
         Gdx.input.setInputProcessor(stage);
 
+        //evento de boton de ayuda
         help.addListener(new InputListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -160,6 +215,7 @@ public class SetPersonaje implements Screen{
             }
         });
 
+        //evento de botón de creditos
         creditos.addListener(new InputListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -169,6 +225,7 @@ public class SetPersonaje implements Screen{
             }
         });
 
+        //evento de botón de records
         records.addListener(new InputListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -177,6 +234,8 @@ public class SetPersonaje implements Screen{
                 return true;
             }
         });
+
+        //evento de botón de startgame
         button.addListener(new InputListener(){
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
@@ -193,7 +252,7 @@ public class SetPersonaje implements Screen{
             }
         });
 
-        //eventos botones
+        //evento de boton de seleccion de gato
         buttonLeftImg.addListener(new InputListener(){
 
             @Override
@@ -217,6 +276,7 @@ public class SetPersonaje implements Screen{
             }
         });
 
+        //evento de boton de seleccion de gato
         buttonRightImg.addListener(new InputListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -235,6 +295,7 @@ public class SetPersonaje implements Screen{
             }
         });
 
+        //evento de botón de sonido
         sound.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -251,6 +312,25 @@ public class SetPersonaje implements Screen{
             }
         });
 
+        //evento de botón de sonido
+        vibrator.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                vibratorBoolean = !vibratorBoolean;
+                PreferencesClass.setPrefVibrator("vibrator", vibratorBoolean);
+                vibrator.setText(PreferencesClass.getPrefVibrator("vibrator") ? "Vibracion: On" : "Vibracion: Off");
+                System.out.println(PreferencesClass.getPrefVibrator("vibrator"));
+                return true;
+            }
+        });
+
+        salir.addListener(new InputListener(){
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                Gdx.app.exit();
+                return super.touchDown(event, x, y, pointer, button);
+            }
+        });
     }
 
     /**
@@ -274,9 +354,7 @@ public class SetPersonaje implements Screen{
         game.batch.draw(catImages.get(i),211,120);
         this.cat = tipoGato(gatoElegido);
         game.batch.end();
-        stage.act();
         stage.draw();
-
     }
 
     /**

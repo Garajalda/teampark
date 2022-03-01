@@ -20,7 +20,7 @@ import com.teampark.Sprites.cats.Cat;
  * Ventana para los creditos
  * @see Screen
  * @author Gara Jalda / Colegio Vivas
- * @version 1.0, 2022/02/15
+ * @version 1.0
  */
 public class Creditos implements Screen {
 
