@@ -92,6 +92,7 @@ public class Help implements Screen {
         Sprite dR = new Sprite(buttonSalirT);
         Image buttonSalir = new Image(dR);
 
+
         Table table = new Table();
         table.top().padTop(10);
         table.setFillParent(true);
