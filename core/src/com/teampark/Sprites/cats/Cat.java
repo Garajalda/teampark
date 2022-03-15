@@ -297,6 +297,8 @@ public class Cat extends Sprite {
 
         body.createFixture(fdef).setUserData("head");
 
+
+
         //pies
         EdgeShape foot = new EdgeShape();
         foot.set(new Vector2((float) -7/MainGame.PPM,(float)-10/MainGame.PPM),new Vector2((float) 7/MainGame.PPM,(float)-10/MainGame.PPM));
