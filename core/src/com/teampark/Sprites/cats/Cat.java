@@ -277,6 +277,7 @@ public class Cat extends Sprite {
         bdef.type = BodyDef.BodyType.DynamicBody;
         body = world.createBody(bdef);
 
+        
         FixtureDef fdef = new FixtureDef();
 
         PolygonShape shape = new PolygonShape();
