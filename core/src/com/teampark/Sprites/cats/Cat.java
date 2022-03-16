@@ -98,7 +98,7 @@ public class Cat extends Sprite {
 
     /**
      * Método que nos indica de que tipo es el personaje
-     * @param tipo
+     * @param tipo Indica el tipo de gato.
      */
     public void setTipo(TypeCat tipo){
         this.tipo = tipo;

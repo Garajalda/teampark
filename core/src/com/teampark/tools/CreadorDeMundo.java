@@ -81,7 +81,7 @@ public class CreadorDeMundo {
 
     /**
      * Método que devuelve los cubos creados.
-     * @return ArrayList<Cubo> Devuelve lista de cubos.
+     * @return ArrayList Devuelve lista de cubos.
      */
     public ArrayList<Cubo> getCubos(){
         return cubos;

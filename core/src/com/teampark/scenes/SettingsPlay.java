@@ -76,7 +76,7 @@ public class SettingsPlay implements Disposable{
 
     /**
      * Método que devuelve si se activó la vista de los ajustes
-     * @return
+     * @return Indica si la tabla esta visible o no, devuelve booleano.
      */
     public boolean isTableVisible() { return tableVisible; }
 

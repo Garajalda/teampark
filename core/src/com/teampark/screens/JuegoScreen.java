@@ -124,6 +124,7 @@ public class JuegoScreen implements Screen{
      * Constructor que define el mapa, los elementos de la ventana.
      * @param game Obtiene el game, que es la clase que permite obtener todas las dependencias del juego.
      * @param gato Obtiene el tipo de gato actual.
+     * @param level Obitene el nivel actual.
      */
     public JuegoScreen(String level, MainGame game, Cat.TypeCat gato) {
         textureAtlas = new TextureAtlas("Cats.pack");
@@ -175,7 +176,7 @@ public class JuegoScreen implements Screen{
 
     /**
      * Método que define la actualización y movimiento de los diferentes componentes dentro de la pantalla.
-     * @param dt
+     * @param dt Parámetro que indica el delta.
      */
     public void update(float dt) {
 
@@ -265,8 +266,8 @@ public class JuegoScreen implements Screen{
 
     /**
      * Reescala la pantalla dependiendo del ancho y el alto.
-     * @param width
-     * @param height
+     * @param width Indica el ancho de pantalla.
+     * @param height Indica el alto de pantalla.
      */
     @Override
     public void resize(int width, int height) {

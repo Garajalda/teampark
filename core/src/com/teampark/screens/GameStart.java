@@ -135,8 +135,8 @@ public class GameStart implements Screen {
 
     /**
      * @see Screen#resize(int, int)
-     * @param width
-     * @param height
+     * @param width Indica el ancho de pantalla.
+     * @param height Indica el alto de pantalla.
      */
     @Override
     public void resize(int width, int height) {

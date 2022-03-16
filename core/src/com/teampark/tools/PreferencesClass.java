@@ -104,7 +104,7 @@ public class PreferencesClass {
 
     /**
      * Método que recoge los records guardados
-     * @return Map<String,?> Devuelve una lista de records
+     * @return Map Devuelve una lista de records
      */
     public static Map<String, ?> getRecordPreferences(){
         return prefRecords.get();
