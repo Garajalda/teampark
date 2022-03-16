@@ -122,8 +122,8 @@ public class JuegoScreen implements Screen{
 
     /**
      * Constructor que define el mapa, los elementos de la ventana.
-     * @param game
-     * @param gato
+     * @param game Obtiene el game, que es la clase que permite obtener todas las dependencias del juego.
+     * @param gato Obtiene el tipo de gato actual.
      */
     public JuegoScreen(String level, MainGame game, Cat.TypeCat gato) {
         textureAtlas = new TextureAtlas("Cats.pack");
@@ -195,7 +195,7 @@ public class JuegoScreen implements Screen{
 
     /**
      * Método que define los eventos de movimiento del personaje.
-     * @param dt
+     * @param dt Parámetro que indica el delta.
      */
     protected void handleInput(float dt) {
             boolean salta = false;
@@ -240,7 +240,7 @@ public class JuegoScreen implements Screen{
 
     /**
      * Renderiza la pantalla JuegoScreen.
-     * @param delta
+     * @param delta Parámetro que indica el delta.
      * @see Screen#render(float)
      */
     @Override

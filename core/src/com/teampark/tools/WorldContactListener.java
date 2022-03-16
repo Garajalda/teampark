@@ -35,7 +35,7 @@ public class WorldContactListener implements ContactListener {
 
     /**
      * Método que define si se ha mantenido contacto con algún objeto
-     * @param contact
+     * @param contact Define el tipo de contacto entre dos objetos.
      */
     @Override
     public void beginContact(Contact contact) {
@@ -97,14 +97,13 @@ public class WorldContactListener implements ContactListener {
 
     /**
      * Método que define si ya no hay contacto
-     * @param contact
+     * @param contact Define el tipo de contacto entre dos objetos.
      */
     @Override
     public void endContact(Contact contact) {
         catNotTouch = true;
         catTouchAscensor = false;
         catTouchCubo = false;
-
     }
 
     @Override

@@ -51,9 +51,9 @@ public class GameOverScreen implements Screen {
 
     /**
      * Constructor de clase que definen los elementos que se ven en pantalla.
-     * @param level
-     * @param game
-     * @param gato
+     * @param level Obtiene el actual nivel del juego como String.
+     * @param game Obtiene el game, que es la clase que permite obtener todas las dependencias del juego.
+     * @param gato Obtiene el tipo de gato actual.
      */
     public GameOverScreen(String level, MainGame game, Cat.TypeCat gato){
         this.game = game;
@@ -88,7 +88,7 @@ public class GameOverScreen implements Screen {
 
     /**
      * Método que renderiza la pantalla del GameOver, en el se puede volver a la pantalla del JuegoScreen.
-     * @param delta
+     * @param delta Parámetro que indica el delta.
      */
     @Override
     public void render(float delta) {
@@ -118,8 +118,8 @@ public class GameOverScreen implements Screen {
 
     /**
      * @see Screen#resize(int, int)
-     * @param width
-     * @param height
+     * @param width Es el ancho de la pantalla.
+     * @param height Es el alto de la pantalla.
      */
     @Override
     public void resize(int width, int height) {

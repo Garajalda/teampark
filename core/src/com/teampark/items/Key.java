@@ -47,9 +47,9 @@ public class Key extends Sprite {
 
     /**
      * Constructor que define la posición del objeto y el nivel en el que se encuentra
-     * @param screen
-     * @param x
-     * @param y
+     * @param screen El parámetro screen define la pantalla previa que se pasa como parámetro, en este caso sería cualquier nivel heredado por JuegoScreen.
+     * @param x Se trata de la coordenada X del objeto.
+     * @param y Se trata de la coordenada Y del objeto.
      */
     public Key(JuegoScreen screen,float x, float y) {
         super(new Texture("key.png"));
@@ -103,7 +103,7 @@ public class Key extends Sprite {
 
     /**
      * Método que define los filtros del objeto
-     * @param filterBit
+     * @param filterBit Se trata de un parámetro que nos permite definir el filtro de colisión.
      */
     public void setCategoryFilter(short filterBit){
         Filter filter = new Filter();
@@ -113,7 +113,7 @@ public class Key extends Sprite {
 
     /**
      * Método que dibuja el sprite de la llave en el renderizado
-     * @param batch
+     * @param batch Es el parámetro que nos permite dibujar en 2D rectángulos.
      */
     public void draw(Batch batch){
         super.draw(batch);
@@ -121,8 +121,8 @@ public class Key extends Sprite {
 
     /**
      * Método que permite la actualización de la posición de la llave
-     * @param dt
-     * @param cat
+     * @param dt Es el delta que se pasa previamente.
+     * @param cat Obtenemos el personaje cat para obtener la posición del gato y así que se mueva la llave a dicha posición.
      */
     public void update(float dt, Cat cat) {
         if(!mooveON)

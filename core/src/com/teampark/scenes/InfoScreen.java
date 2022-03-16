@@ -68,8 +68,8 @@ public class InfoScreen implements Disposable {
 
     /**
      * Contructor que implementa los valores del texto que se muestra por pantalla
-     * @param sb
-     * @param level
+     * @param sb Parámetro que permite dibujar batchs
+     * @param level Obtiene el actual nivel del juego como String.
      */
     @SuppressWarnings("DefaultLocale")
     public InfoScreen(SpriteBatch sb, String level) {
@@ -93,7 +93,7 @@ public class InfoScreen implements Disposable {
 
     /**
      * Método que define la actualización del tiempo
-     * @param dt
+     * @param dt Es el delta que se pasa previamente.
      */
     @SuppressWarnings("DefaultLocale")
     public void update(float dt){

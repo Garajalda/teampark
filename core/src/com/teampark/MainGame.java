@@ -100,9 +100,9 @@ public class MainGame extends Game{
 
 	/**
 	 * Método que permite generar un estilo de fuente.
-	 * @param size
-	 * @param color
-	 * @return
+	 * @param size Es el tamaño del texto.
+	 * @param color Es el color del texto.
+	 * @return Devuelve un estilo de texto.
 	 */
 	public static Label.LabelStyle generatorStyle(int size, Color color){
 		final Label.LabelStyle labelStyle;

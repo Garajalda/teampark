@@ -31,7 +31,7 @@ public class PreferencesClass {
 
     /**
      * Método que obtiene el total de niveles que se ha pasado.
-     * @return
+     * @return devuelve lista de niveles.
      */
     public static Map<String, ?> getCountLevels(){
         return prefs.get();
@@ -39,8 +39,8 @@ public class PreferencesClass {
 
     /**
      * Método que guarda el nivel que se ha pasado.
-     * @param k
-     * @param level
+     * @param k Es la clave de lista de niveles.
+     * @param level Es el valor de lista de niveles.
      */
     //level
     public static void setLevelPreferences(String k,String level){
@@ -49,19 +49,11 @@ public class PreferencesClass {
 
     }
 
-    /**
-     * Método que recoge un nivel que se ha pasado.
-     * @param k
-     * @return
-     */
-    public static String getLevelPreferences(String k){
-        return prefs.getString(k);
-    }
 
     /**
      * Método que guarda los ajustes de vibración
-     * @param k
-     * @param vibrator
+     * @param k Es la clave de la lista de vibración
+     * @param vibrator Es el valor de vibración
      */
     public static void setPrefVibrator(String k, boolean vibrator){
         prefVibrator.putBoolean(k,vibrator);
@@ -70,8 +62,8 @@ public class PreferencesClass {
 
     /**
      * Método que recoge los ajustes de vibración
-     * @param k
-     * @return
+     * @param k Es la clave de la lista de vibración
+     * @return Devuelve un booleano que indica si la vibración esta a false o true
      */
     public static Boolean getPrefVibrator(String k){
         return prefVibrator.getBoolean(k);
@@ -79,8 +71,8 @@ public class PreferencesClass {
 
     /**
      * Método que guarda los ajustes del sonido
-     * @param k
-     * @param sound
+     * @param k Es la clave de la lista de sonido
+     * @param sound Es el valor de sonido
      */
     //sound
     public static void setSoundPreferences(String k, boolean sound){
@@ -90,8 +82,8 @@ public class PreferencesClass {
 
     /**
      * Método que recoge los ajustes de un sonido
-     * @param k
-     * @return
+     * @param k Es la clave de la lista de sonido
+     * @return Devuelve un booleano que indica si el sonido está activado o desactivado
      */
     public static Boolean getSoundPreferences(String k){
         return prefSettings.getBoolean(k);
@@ -101,8 +93,8 @@ public class PreferencesClass {
 
     /**
      * Método que guarda un record
-     * @param k
-     * @param record
+     * @param k Es la clave de un record
+     * @param record Es el valor de un record
      */
     public static void setRecordPreferences(String k, StringBuilder record){
         prefRecords.putString(k,record.toString());
@@ -112,7 +104,7 @@ public class PreferencesClass {
 
     /**
      * Método que recoge los records guardados
-     * @return Map<String,?>
+     * @return Map<String,?> Devuelve una lista de records
      */
     public static Map<String, ?> getRecordPreferences(){
         return prefRecords.get();

@@ -43,8 +43,9 @@ public class Cubo extends Sprite {
 
     /**
      * Constructor que define las propiedades del cubo
-     * @param screen
-     * @param rectangle
+     * @param screen El parámetro screen define la pantalla previa que se pasa como parámetro.
+     * @param rectangle Define el rectángulo.
+     * @see Rectangle
      */
     public Cubo(JuegoScreen screen, Rectangle rectangle){
 
@@ -88,7 +89,7 @@ public class Cubo extends Sprite {
 
     /**
      * Método que actualiza la posición del cubo cuando se arrastra
-     * @param dt
+     * @param dt Parámetro que indica el delta.
      */
     public void update(float dt){
         setPosition(body.getPosition().x-getWidth()/2,body.getPosition().y -getHeight()/2);
@@ -96,7 +97,7 @@ public class Cubo extends Sprite {
 
     /**
      * Método que dibuja el cubo en el renderizado.
-     * @param batch
+     * @param batch Es el parámetro que nos permite dibujar en 2D rectángulos.
      */
     public void draw(Batch batch){
         super.draw(batch);
@@ -104,7 +105,7 @@ public class Cubo extends Sprite {
 
     /**
      * Método que añade un filtro de contacto
-     * @param filterBit
+     * @param filterBit Indica el tipo de filtro al que nos referimos.
      */
     public void setCategoryFilter(short filterBit){
         Filter filter = new Filter();

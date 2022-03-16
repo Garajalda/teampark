@@ -99,11 +99,11 @@ public class SettingsPlay implements Disposable{
     /**
      *
      * Constructor de clase que define los elementos de los ajustes y su actual estado
-     * @param juegoScreen
-     * @param level
-     * @param game
-     * @param sb
-     * @param gatoElegido
+     * @param juegoScreen El parámetro screen define la pantalla previa que se pasa como parámetro, en este caso sería cualquier nivel heredado por JuegoScreen.
+     * @param level Obtiene el actual nivel del juego como String.
+     * @param game Obtiene el game, que es la clase que permite obtener todas las dependencias del juego.
+     * @param sb Se encarga de dibujar los batch.
+     * @param gatoElegido Obtiene el tipo de gato actual.
      */
     public SettingsPlay(final JuegoScreen juegoScreen, final String level, final MainGame game, final SpriteBatch sb, final Cat.TypeCat gatoElegido){
 

@@ -32,7 +32,7 @@ public class CreadorDeMundo {
 
     /**
      * Constructor de clase que define las características comunes de los objetos creados de un tilemap
-     * @param screen
+     * @param screen El parámetro screen define la pantalla previa que se pasa como parámetro.
      */
     public CreadorDeMundo(JuegoScreen screen){
         World world = screen.getWorld();
@@ -81,7 +81,7 @@ public class CreadorDeMundo {
 
     /**
      * Método que devuelve los cubos creados.
-     * @return ArrayList<Cubo>
+     * @return ArrayList<Cubo> Devuelve lista de cubos.
      */
     public ArrayList<Cubo> getCubos(){
         return cubos;

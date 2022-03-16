@@ -63,8 +63,8 @@ public class SetLevel implements Screen {
 
     /**
      * Constructor que inicializa el selector de niveles con el gato elegido y el nivel
-     * @param game
-     * @param gatoElegido
+     * @param game Obtiene el game, que es la clase que permite obtener todas las dependencias del juego.
+     * @param gatoElegido Obtiene el tipo de gato actual.
      */
     public SetLevel(final MainGame game, final Cat.TypeCat gatoElegido){
         this.game = game;
@@ -178,7 +178,7 @@ public class SetLevel implements Screen {
 
     /**
      * Método que inicia el renderizado.
-     * @param delta
+     * @param delta Parámetro que indica el delta.
      * @see Screen#render(float)
      */
     @Override
@@ -191,8 +191,8 @@ public class SetLevel implements Screen {
 
     /**
      * @see Screen#resize(int, int)
-     * @param width
-     * @param height
+     * @param width Es el ancho de la pantalla.
+     * @param height Es el alto de la pantalla.
      */
     @Override
     public void resize(int width, int height) {

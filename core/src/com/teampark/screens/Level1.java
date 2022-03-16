@@ -40,9 +40,9 @@ public class Level1 extends JuegoScreen{
 
     /**
      * Constructor que define el mapa, los elementos de la ventana.
-     * @param level
-     * @param game
-     * @param gato
+     * @param level Obtiene el actual nivel del juego como String.
+     * @param game Obtiene el game, que es la clase que permite obtener todas las dependencias del juego.
+     * @param gato Obtiene el tipo de gato actual.
      */
     public Level1(String level, MainGame game, Cat.TypeCat gato) {
         super(level, game, gato);
@@ -80,18 +80,14 @@ public class Level1 extends JuegoScreen{
 
     /**
      * Renderiza la pantalla del nivel1.
-     * @param delta
+     * @param delta Parámetro que indica el delta.
      * @see Screen#render(float)
      */
     @Override
     public void render(float delta) {
         super.render(delta);
-
-
-
         Gdx.gl.glClearColor(1.0f, 0.9f, 0.6f, 0.0f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
 
         renderer.render();
 
@@ -132,7 +128,7 @@ public class Level1 extends JuegoScreen{
 
     /**
      * Método que define los eventos de movimiento del personaje.
-     * @param dt
+     * @param dt Parámetro que indica el delta.
      * @see JuegoScreen#handleInput(float)
      */
     @Override
@@ -142,8 +138,8 @@ public class Level1 extends JuegoScreen{
 
     /**
      * Reescala la pantalla dependiendo del ancho y el alto.
-     * @param width
-     * @param height
+     * @param width Es el ancho de la pantalla.
+     * @param height Es el alto de la pantalla.
      */
     @Override
     public void resize(int width, int height) {
@@ -152,7 +148,7 @@ public class Level1 extends JuegoScreen{
 
     /**
      * Método que define la actualización y movimiento de los diferentes componentes dentro de la pantalla.
-     * @param dt
+     * @param dt Parámetro que indica el delta.
      * @see JuegoScreen#update(float)
      */
     @Override

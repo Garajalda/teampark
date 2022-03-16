@@ -42,9 +42,9 @@ public class Level2 extends JuegoScreen{
 
     /**
      * Constructor que define el mapa, los elementos de la ventana
-     * @param level
-     * @param game
-     * @param gatoElegido
+     * @param level Obtiene el actual nivel del juego como String.
+     * @param game Obtiene el game, que es la clase que permite obtener todas las dependencias del juego.
+     * @param gatoElegido Obtiene el tipo de gato actual.
      */
     public Level2(String level, MainGame game, Cat.TypeCat gatoElegido) {
         super(level, game, gatoElegido);
@@ -79,7 +79,7 @@ public class Level2 extends JuegoScreen{
 
     /**
      * Método que define los eventos de movimiento del personaje.
-     * @param dt
+     * @param dt Parámetro que indica el delta.
      * @see JuegoScreen#handleInput(float)
      */
     @Override
@@ -89,8 +89,8 @@ public class Level2 extends JuegoScreen{
 
     /**
      * Reescala la pantalla dependiendo del ancho y el alto.
-     * @param width
-     * @param height
+     * @param width Es el ancho de la pantalla.
+     * @param height Es el alto de la pantalla.
      */
     @Override
     public void resize(int width, int height) {
@@ -99,7 +99,7 @@ public class Level2 extends JuegoScreen{
 
     /**
      * Método que define la actualización y movimiento de los diferentes componentes dentro de la pantalla.
-     * @param dt
+     * @param dt Parámetro que indica el delta.
      * @see JuegoScreen#update(float)
      */
     @Override
@@ -110,7 +110,7 @@ public class Level2 extends JuegoScreen{
 
     /**
      * Renderiza la pantalla del nivel 2.
-     * @param delta
+     * @param delta Parámetro que indica el delta.
      * @see Screen#render(float)
      */
     @Override

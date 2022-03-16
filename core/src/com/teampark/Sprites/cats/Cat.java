@@ -112,10 +112,10 @@ public class Cat extends Sprite {
 
     /**
      * Constructor que inicializa los estados actuales
-     * @param screen
-     * @param tipoGato
-     * @param x
-     * @param y
+     * @param screen El parámetro screen define la pantalla previa que se pasa como parámetro, en este caso sería el nivel 1.
+     * @param tipoGato Obtiene el tipo de gato actual.
+     * @param x Se trata de la coordenada X del objeto.
+     * @param y Se trata de la coordenada Y del objeto.
      */
     public Cat(JuegoScreen screen,TypeCat tipoGato,float x, float y){
         super(screen.getTextureAtlas().findRegion("cat_"+tipoGato.name()+"-32x48"));
@@ -138,12 +138,11 @@ public class Cat extends Sprite {
 
     /**
      * Método que actualiza la posición de la textura
-     * @param dt
+     * @param dt Parámetro que indica el delta.
      */
     public void update(float dt){
         setPosition(body.getPosition().x-getWidth()/2, (float) ((double) body.getPosition().y-getHeight()/3.3));
         setRegion(getFrame(dt));
-
     }
 
     /**
@@ -188,7 +187,7 @@ public class Cat extends Sprite {
 
     /**
      * Método que nos devuelve la textura del estado en el que se encuentra
-     * @param dt
+     * @param dt Parámetro que indica el delta.
      * @return la textura del gato
      */
     private TextureRegion getFrame(float dt) {
@@ -235,7 +234,7 @@ public class Cat extends Sprite {
 
     /**
      * Método que nos devuelve el estado del gato.
-     * @return
+     * @return State, que es el estado.
      */
     public State getState(){
         if(catIsDead)
@@ -260,7 +259,7 @@ public class Cat extends Sprite {
 
     /**
      * Método que nos devuelve un contador.
-     * @return
+     * @return nos devuelve un float
      */
     public float getStateTimer(){
         return stateTimer;

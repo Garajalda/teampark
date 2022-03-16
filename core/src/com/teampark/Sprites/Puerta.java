@@ -24,8 +24,9 @@ public class Puerta extends ObjetosTileInteractivos {
 
     /**
      * Constructor de clase que define la puerta
-     * @param screen
-     * @param bounds
+     * @param screen El parámetro screen define la pantalla previa que se pasa como parámetro.
+     * @param bounds Define el rectángulo.
+     * @see Rectangle
      */
     public Puerta(JuegoScreen screen, Rectangle bounds) {
         super(screen, bounds);
@@ -36,7 +37,7 @@ public class Puerta extends ObjetosTileInteractivos {
 
     /**
      * Método que indica si se pasa al siguiente
-     * @param next
+     * @param next Indica si debe superar el siguiente nivel.
      */
     public static void setNextLevel(boolean next){
         nextLevel = next;
@@ -44,7 +45,7 @@ public class Puerta extends ObjetosTileInteractivos {
 
     /**
      * Método que devuelve si se pasa al siguiente nivel
-     * @return nextLevel
+     * @return nextLevel Indica si se ha superado el nivel.
      */
     public static boolean isNextLevel(){
         return nextLevel;

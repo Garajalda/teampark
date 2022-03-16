@@ -62,7 +62,7 @@ public class Help implements Screen {
 
     /**
      * Constructor que inicia los elementos de la ventana de ayuda y salir de la pantalla, así como diferentes eventos.
-     * @param game
+     * @param game Obtiene el game, que es la clase que permite obtener todas las dependencias del juego.
      * @see MainGame
      */
     public Help(final MainGame game){
@@ -141,7 +141,7 @@ public class Help implements Screen {
 
     /**
      * Método que inicia el renderizado e inicia el contador para ir pasando de imagenes.
-     * @param delta
+     * @param delta Parámetro que indica el delta.
      * @see Screen#render(float)
      */
     @Override

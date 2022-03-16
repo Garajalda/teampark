@@ -59,8 +59,8 @@ public class GameStart implements Screen {
 
     /**
      * Constructor que define los diferentes elementos que se muentran en la ventana.
-     * @param game
-     * @param batch
+     * @param game Obtiene el game, que es la clase que permite obtener todas las dependencias del juego.
+     * @param batch Se encarga de dibujar los batch.
      */
     public GameStart(MainGame game, SpriteBatch batch){
 
@@ -108,7 +108,7 @@ public class GameStart implements Screen {
 
     /**
      * Método que inicia el renderizado de la ventana o pasa a otra ventana donde se puede elegir el personaje.
-     * @param delta
+     * @param delta Parámetro que indica el delta.
      * @see Screen#render(float)
      */
     @Override

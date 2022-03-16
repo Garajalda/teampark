@@ -81,8 +81,8 @@ public class Records implements Screen {
 
     /**
      * Constructor que define la ventana records en caso de superar el nivel 2
-     * @param game
-     * @param screen
+     * @param game Obtiene el game, que es la clase que permite obtener todas las dependencias del juego.
+     * @param screen El parámetro screen define la pantalla previa que se pasa como parámetro, en este caso sería el nivel 1.
      */
     public Records(final MainGame game,final Screen screen){
         this.game = game;
@@ -117,10 +117,10 @@ public class Records implements Screen {
 
     /**
      * Constructor que define records en caso de que se buscar un record sin haber terminado la partida
-     * @param game
-     * @param screen
-     * @param gatoElegido
-     * @param tiempoTotal
+     * @param game Obtiene el game, que es la clase que permite obtener todas las dependencias del juego.
+     * @param screen El parámetro screen define la pantalla previa que se pasa como parámetro, en este caso sería el nivel 1.
+     * @param gatoElegido Obtiene el tipo de gato actual.
+     * @param tiempoTotal Obtiene la marca final del tiempo en el que se ha tardado en superar el juego.
      */
     public Records(final MainGame game, final Screen screen, final Cat.TypeCat gatoElegido, StringBuilder tiempoTotal){
         this.game = game;
@@ -209,7 +209,7 @@ public class Records implements Screen {
 
     /**
      * Método que inicia el renderizado.
-     * @param delta
+     * @param delta Parámetro que indica el delta.
      * @see Screen#render(float)
      */
     @Override

@@ -104,7 +104,7 @@ public class SetPersonaje implements Screen{
 
     /**
      * Método que define el personaje que ha elegido el ususario.
-     * @param tipoGato
+     * @param tipoGato Obtiene el tipo de gato actual.
      * @return el sprite del tipo de gato.
      */
     public Sprite tipoGato(Cat.TypeCat tipoGato){
@@ -122,7 +122,7 @@ public class SetPersonaje implements Screen{
 
     /**
      * Constructor en el que se crea la ventana y su contenido, tambíen contiene eventos de si se pulsan ciertos botones.
-     * @param game
+     * @param game Obtiene el game, que es la clase que permite obtener todas las dependencias del juego.
      */
     public SetPersonaje(final MainGame game) {
         Skin skin = new Skin(Gdx.files.internal("Terra_Mother_UI_Skin/terramotherui/terra-mother-ui.json"));
@@ -344,7 +344,7 @@ public class SetPersonaje implements Screen{
 
     /**
      * Método que renderiza la ventana y si se realiza el evento pasa a la ventana del juego.
-     * @param delta
+     * @param delta Parámetro que indica el delta.
      */
     @Override
     public void render(float delta) {
@@ -359,8 +359,8 @@ public class SetPersonaje implements Screen{
 
     /**
      * @see Screen#resize(int, int)
-     * @param width
-     * @param height
+     * @param width Es el ancho de la pantalla.
+     * @param height Es el alto de la pantalla.
      */
     @Override
     public void resize(int width, int height) {

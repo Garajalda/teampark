@@ -41,9 +41,9 @@ public class TableRecords implements Disposable {
 
     /**
      * Constructor de clase que define el nombre a agregar y el tiempo que ha durado la partida
-     * @param screen
-     * @param tiempoTotal
-     * @param sb
+     * @param screen El parámetro screen define la pantalla previa que se pasa como parámetro, en este caso sería cualquier nivel heredado por JuegoScreen.
+     * @param tiempoTotal Obtiene la marca final del tiempo en el que se ha tardado en superar el juego.
+     * @param sb Se encarga de dibujar los batch.
      */
     public TableRecords(final Screen screen, final StringBuilder tiempoTotal, final SpriteBatch sb) {
         Viewport viewport = new FitViewport(MainGame.VIEW_WIDTH, MainGame.VIEW_HEIGHT, new OrthographicCamera());

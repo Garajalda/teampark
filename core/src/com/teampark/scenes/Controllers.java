@@ -55,7 +55,7 @@ public class Controllers extends Touchpad implements Disposable, InputProcessor 
 
     /**
      * Constructor que define los elementos del Touchpad, stage y el viewport.
-     * @param batch
+     * @param batch batch Es el parámetro que nos permite dibujar en 2D rectángulos.
      */
     public Controllers(SpriteBatch batch){
         super(4,Controllers.getTouchPadStyle());

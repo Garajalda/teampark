@@ -41,9 +41,9 @@ public class Ascensor extends Sprite implements Disposable {
 
     /**
      * Constructor del ascensor que define en el nivel en el que se esta mostrando y la posición
-     * @param screen
-     * @param x
-     * @param y
+     * @param screen El parámetro screen define la pantalla previa que se pasa como parámetro, en este caso sería el nivel 1.
+     * @param x Se trata de la coordenada X del objeto.
+     * @param y Se trata de la coordenada Y del objeto.
      */
     public Ascensor(JuegoScreen screen,float x, float y) {
         super(new Texture("elevator.png"));
@@ -84,7 +84,7 @@ public class Ascensor extends Sprite implements Disposable {
 
     /**
      * Actualiza la posición del ascensor
-     * @param dt
+     * @param dt Es el delta que se pasa previamente.
      */
     public void update(float dt) {
 
@@ -106,7 +106,7 @@ public class Ascensor extends Sprite implements Disposable {
 
     /**
      * Dibuja el sprite del ascensor en el renderizado
-     * @param batch
+     * @param batch Es el parámetro que nos permite dibujar en 2D rectángulos.
      */
     public void draw(Batch batch){
         //si el botón ha sido pulsado dibuja el ascensor

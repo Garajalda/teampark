@@ -32,9 +32,9 @@ public class Creditos implements Screen {
 
     /**
      * Constructor que define el texto que tendrá los créditos y el comportamiento de eventos.
-     * @param game
-     * @param screen
-     * @param gato
+     * @param game Obtiene el game, que es la clase que permite obtener todas las dependencias del juego.
+     * @param screen El parámetro screen define la pantalla previa que se pasa como parámetro, en este caso sería cualquier nivel heredado por JuegoScreen.
+     * @param gato Obtiene el tipo de gato actual.
      */
     public Creditos(final MainGame game, final Screen screen, final Cat.TypeCat gato){
 
@@ -114,7 +114,7 @@ public class Creditos implements Screen {
     /**
      * Método que permite el renderizado de la ventana o la escena y añade los diferentes eventos de una escena.
      * @see Screen#render(float)
-     * @param delta
+     * @param delta Es el parámetro delta.
      */
     @Override
     public void render(float delta) {
@@ -130,8 +130,8 @@ public class Creditos implements Screen {
 
     /**
      * @see Screen#resize(int, int)
-     * @param width
-     * @param height
+     * @param width Es el ancho de la pantalla.
+     * @param height Es el alto de la pantalla.
      */
     @Override
     public void resize(int width, int height) {

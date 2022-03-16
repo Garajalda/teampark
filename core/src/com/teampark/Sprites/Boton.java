@@ -26,8 +26,9 @@ public class Boton extends ObjetosTileInteractivos {
 
     /**
      * Define el cuerpo del botón
-     * @param screen
-     * @param bounds
+     * @param screen El parámetro screen define la pantalla previa que se pasa como parámetro, en este caso sería el nivel 1.
+     * @param bounds Define el rectángulo.
+     * @see Rectangle
      */
     public Boton(JuegoScreen screen, Rectangle bounds) {
         super(screen, bounds);

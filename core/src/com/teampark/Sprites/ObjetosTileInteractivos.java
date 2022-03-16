@@ -54,8 +54,9 @@ public abstract class ObjetosTileInteractivos {
 
     /**
      * Constructor que define todos los atributos
-     * @param screen
-     * @param bounds
+     * @param screen El parámetro screen define la pantalla previa que se pasa como parámetro.
+     * @param bounds Define el rectángulo.
+     * @see Rectangle
      */
     public ObjetosTileInteractivos(JuegoScreen screen, Rectangle bounds){
         this.world = screen.getWorld();
@@ -87,7 +88,7 @@ public abstract class ObjetosTileInteractivos {
 
     /**
      * Método que implementa el filtro de contacto
-     * @param filterBit
+     * @param filterBit Es el tipo de filtro que se le indica.
      */
     public void setCategoryFilter(short filterBit){
         Filter filter = new Filter();
